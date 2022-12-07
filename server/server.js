@@ -6,6 +6,8 @@ import mongoose from "mongoose";
 import perfumesRoutes from "./routes/perfumesRoutes.js";
 import usersRoutes from "./routes/usersRoutes.js";
 import cloudinaryConfig from "./cloudinary.js";
+import passport from "passport";
+import passportConfig from "./passport.js";
 
 // loading .env file
 dotenv.config();
@@ -20,12 +22,17 @@ const addMiddleWares = () => {
       extended: true,
     })
   );
+
   const corsOption = {
     origin: "http://localhost:3000",
     credentials: true,
   };
+
   app.use(cors(corsOption));
   cloudinaryConfig();
+  app.use(passport.initialize());
+  // instead of use app.use(and in here to put all the info that i put into the passport.js  from line 10 to 33)
+  passportConfig(passport);
 };
 
 const startServer = () => {

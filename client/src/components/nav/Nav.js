@@ -1,16 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 // import "./Nav.js";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUsers, faRightToBracket } from "@fortawesome/free-solid-svg-icons";
+import VerticallyCenter from "./Modal";
+import { AuthContext } from "../../context/authContext.js";
 
 function Nav() {
+  const { userLogged } = useContext(AuthContext);
+  console.log("userLogged", userLogged);
+
   const regIcon = <FontAwesomeIcon icon={faUsers} />;
   const logInIcon = <FontAwesomeIcon icon={faRightToBracket} />;
 
+  const token = localStorage.getItem("token");
+  console.log("token :>> ", token);
+
   return (
     <div>
-      {/* #### Hier is the IMG and the TEXT ##### */}
+      {/* #### Here is the IMG and the TEXT ##### */}
       {/* ####################################### */}
       <div className="flex justify-center">
         <div className="flex justify-center items-baseline grow">
@@ -26,20 +34,39 @@ function Nav() {
             <p>For the love of scents</p>
           </div>
         </div>
-        <dir className="flex gap-3">
-          <div className="flex">
-            <div>{regIcon}</div>
-            <Link to="register" className="ml-1">
-              Register
-            </Link>
-          </div>
-          <div className="flex mr-2">
-            <div>{logInIcon}</div>
-            <Link to="login" className="ml-1">
-              Log In
-            </Link>
-          </div>
-        </dir>
+        {/* #### Here is the REGISTER, LOGIN || USER.IMG && LOGOUT  ##### */}
+        {/* ############################################################# */}
+        <div className="flex gap-3">
+          {token === null ? (
+            <div className="flex">
+              <div>{regIcon}</div>
+              <Link to="register" className="ml-1">
+                Register
+              </Link>
+            </div>
+          ) : (
+            <img
+              src={userLogged.avatarPic}
+              alt="user pic"
+              style={{ height: "35px", width: " 35px", borderRadius: "50%" }}
+            />
+          )}
+          {token === null ? (
+            <div className="flex mr-2">
+              <div>{logInIcon}</div>
+              <Link to="login" className="ml-1">
+                Log In
+              </Link>
+            </div>
+          ) : (
+            <div className="flex mr-2">
+              <div>
+                <VerticallyCenter />
+              </div>
+              Logout
+            </div>
+          )}
+        </div>
       </div>
       {/* #### Hier is the NAV ##### */}
       {/* ########################## */}
