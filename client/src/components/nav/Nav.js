@@ -8,13 +8,13 @@ import { AuthContext } from "../../context/authContext.js";
 
 function Nav() {
   const { userLogged } = useContext(AuthContext);
-  console.log("userLogged", userLogged);
+  // console.log("userLogged", userLogged);
 
   const regIcon = <FontAwesomeIcon icon={faUsers} />;
   const logInIcon = <FontAwesomeIcon icon={faRightToBracket} />;
 
-  const token = localStorage.getItem("token");
-  console.log("token :>> ", token);
+  // const token = localStorage.getItem("token");
+  // console.log("token :>> ", token);
 
   return (
     <div>
@@ -37,33 +37,31 @@ function Nav() {
         {/* #### Here is the REGISTER, LOGIN || USER.IMG && LOGOUT  ##### */}
         {/* ############################################################# */}
         <div className="flex gap-3">
-          {token === null ? (
-            <div className="flex">
-              <div>{regIcon}</div>
-              <Link to="register" className="ml-1">
-                Register
+          {console.log("userLogged>>>>", userLogged)}
+          {!userLogged ? (
+            <div>
+              <Link to="register" className="flex ml-1">
+                <div>{regIcon}</div>
+                <div className="ml-1">Register</div>
               </Link>
             </div>
           ) : (
             <img
-              src={userLogged.avatarPic}
+              src={userLogged?.avatarPic}
               alt="user pic"
-              style={{ height: "35px", width: " 35px", borderRadius: "50%" }}
+              style={{ height: "25px", width: " 25px", borderRadius: "50%" }}
             />
           )}
-          {token === null ? (
-            <div className="flex mr-2">
-              <div>{logInIcon}</div>
-              <Link to="login" className="ml-1">
-                Log In
+          {!userLogged ? (
+            <div>
+              <Link to="login" className="ml-1 flex mr-2">
+                <div>{logInIcon}</div>
+                <div className="ml-1">Log In</div>
               </Link>
             </div>
           ) : (
             <div className="flex mr-2">
-              <div>
-                <VerticallyCenter />
-              </div>
-              Logout
+              <VerticallyCenter />
             </div>
           )}
         </div>

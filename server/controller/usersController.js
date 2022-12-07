@@ -49,7 +49,7 @@ const signup = async (req, res) => {
       // console.log("hashedPassword", hashedPassword);
       const newUser = new userModel({
         email: email,
-        // password: hashedPassword,
+        password: hashedPassword,
         userName: userName,
         avatarPic: req.body.avatarPic
           ? req.body.avatarPic

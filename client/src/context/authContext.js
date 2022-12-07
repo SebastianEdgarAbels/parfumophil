@@ -7,6 +7,7 @@ export const AuthContext = createContext();
 
 // 3. Create provider
 export const AuthContextProvider = (props) => {
+  console.log("authcontext run");
   const [userLogged, setUserLogged] = useState();
 
   const profile = async () => {
@@ -26,18 +27,60 @@ export const AuthContextProvider = (props) => {
         requestOptions
       );
       const result = await response.json();
-      setUserLogged(result);
+      console.log("result :>> ", result);
+      setUserLogged(result.user);
+
+      console.log("userLogged", userLogged);
     } catch (error) {
       console.log(" error :>> ", error);
     }
   };
+  const login = async (email, password) => {
+    // console.log("userLogin :>> ", userLogin);
 
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+    const urlencoded = new URLSearchParams();
+    urlencoded.append("email", email);
+    urlencoded.append("password", password);
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: urlencoded,
+      redirect: "follow",
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/users/login",
+        requestOptions
+      );
+      const result = await response.json();
+      console.log("result:>>>>", result);
+
+      const { token } = result;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        setUserLogged(result.user);
+      }
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
+  };
+  const logout = () => {
+    localStorage.removeItem("token");
+    setUserLogged(false);
+  };
   useEffect(() => {
+    console.log("useEffect auth>>>");
     profile();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ userLogged }}>
+    <AuthContext.Provider value={{ userLogged, setUserLogged, login, logout }}>
       {props.children}
     </AuthContext.Provider>
   );

@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
+  const redirectTo = useNavigate();
+
   // //############### useStates ###############//
   const [selectedFile, setSelectedFile] = useState({});
-  const [newUser, setNewUser] = useState({});
-
+  // const [newUser, setNewUser] = useState({});
+  const [avatarPicture, setAvatarPicture] = useState("");
+  const email = useRef();
+  const password = useRef();
+  const userName = useRef();
   // eventListener
   const attachFileHandler = (e) => {
     setSelectedFile(e.target.files[0]);
@@ -29,54 +35,58 @@ function Register() {
       requestOptions
     );
     const result = await response.json();
-    setNewUser({ ...newUser, avatarPicture: result.image });
+    setAvatarPicture(result.image);
     console.log("result :>> ", result);
   };
 
   // eventListener
-  const handleChangeHandler = (e) => {
-    console.log(
-      "e.target.name :>> ",
-      e.target.name,
-      e.target.value,
-      e.target.email,
-      e.target.value
-    );
-    setNewUser({
-      ...newUser,
-      [e.target.name]: e.target.value,
-      [e.target.email]: e.target.value,
-    });
-  };
+  // const handleChangeHandler = (e) => {
+  //   // console.log(
+  //   //   "e.target.name :>> ",
+  //   //   e.target.name,
+  //   //   e.target.value,
+  //   //   e.target.email,
+  //   //   e.target.value
+  //   // );
+  //   // setNewUser({
+  //   //   ...newUser,
+  //   //   [e.target.name]: e.target.value,
+  //   //   [e.target.email]: e.target.value,
+  //   // });
+  // };
 
   const signup = async () => {
-    var myHeaders = new Headers();
+    const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-    var urlencoded = new URLSearchParams();
-    urlencoded.append("email", newUser.email);
-    urlencoded.append("password", newUser.password);
-    urlencoded.append("userName", newUser.userName);
+    const urlencoded = new URLSearchParams();
+    urlencoded.append("email", email.current.value);
+    urlencoded.append("password", password.current.value);
+    urlencoded.append("userName", userName.current.value);
     urlencoded.append(
       "avatarPic",
-      newUser.avatarPic
-        ? newUser.avatarPic
+      avatarPicture
+        ? avatarPicture
         : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
     );
 
-    var requestOptions = {
+    const requestOptions = {
       method: "POST",
       headers: myHeaders,
       body: urlencoded,
       redirect: "follow",
     };
-
-    const response = await fetch(
-      "http://localhost:5000/api/users/signup",
-      requestOptions
-    );
-    const result = await response.json();
-    console.log("result", result);
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/users/signup",
+        requestOptions
+      );
+      const result = await response.json();
+      console.log("result", result);
+      redirectTo("/login");
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
   };
 
   return (
@@ -90,10 +100,11 @@ function Register() {
               </label>
               <input
                 type="text"
-                value={newUser.userName ? newUser.userName : ""}
+                // value={newUser.userName ? newUser.userName : ""}
                 name="userName"
+                ref={userName}
                 placeholder="Username"
-                onChange={handleChangeHandler}
+                // onChange={handleChangeHandler}
                 className=" m-3"
               />
             </div>
@@ -103,10 +114,11 @@ function Register() {
               </label>
               <input
                 type="text"
-                value={newUser.email ? newUser.email : ""}
+                // value={newUser.email ? newUser.email : ""}
                 name="email"
                 placeholder="Email"
-                onChange={handleChangeHandler}
+                ref={email}
+                // onChange={handleChangeHandler}
                 required
                 className=" m-3"
               />
@@ -131,23 +143,20 @@ function Register() {
               </label>
               <input
                 type="password"
-                value={newUser.password ? newUser.password : ""}
+                // value={newUser.password ? newUser.password : ""}
                 name="password"
                 placeholder="Password"
-                onChange={handleChangeHandler}
+                ref={password}
+                // onChange={handleChangeHandler}
                 required
                 className=" m-3"
               />
             </div>
           </div>
         </form>
-        {console.log(newUser.avatarPic)}
-        {newUser && newUser.avatarPic !== undefined ? (
-          <img
-            src={newUser.avatarPic}
-            alt="user pic"
-            style={{ width: "100px" }}
-          />
+        {/* {console.log(newUser.avatarPic)} */}
+        {avatarPicture ? (
+          <img src={avatarPicture} alt="user pic" style={{ width: "100px" }} />
         ) : (
           <img
             src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"

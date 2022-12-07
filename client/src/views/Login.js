@@ -1,46 +1,52 @@
-import React, { useState } from "react";
+import React, { useContext, useRef, useState } from "react";
+
+import { AuthContext } from "../context/authContext";
 
 function Login() {
-  const [userLogin, setUserLogin] = useState({});
+  // const [userLogin, setUserLogin] = useState({});
+  const { userLogged, setUserLogged, login } = useContext(AuthContext);
+  const email = useRef();
+  const password = useRef();
 
-  const handleChangeHandler = (e) => {
-    setUserLogin({ ...userLogin, [e.target.name]: e.target.value });
-  };
+  // const handleChangeHandler = (e) => {
+  //   setUserLogin({ ...userLogin, [e.target.name]: e.target.value });
+  // };
 
-  const login = async () => {
-    // console.log("userLogin :>> ", userLogin);
+  // const login = async () => {
+  //   // console.log("userLogin :>> ", userLogin);
 
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+  //   const myHeaders = new Headers();
+  //   myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-    const urlencoded = new URLSearchParams();
-    urlencoded.append("email", userLogin.email);
-    urlencoded.append("password", userLogin.password);
+  //   const urlencoded = new URLSearchParams();
+  //   urlencoded.append("email", userLogin.email);
+  //   urlencoded.append("password", userLogin.password);
 
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: urlencoded,
-      redirect: "follow",
-    };
+  //   var requestOptions = {
+  //     method: "POST",
+  //     headers: myHeaders,
+  //     body: urlencoded,
+  //     redirect: "follow",
+  //   };
 
-    try {
-      const response = await fetch(
-        "http://localhost:5000/api/users/login",
-        requestOptions
-      );
-      const result = await response.json();
-      console.log("result:>>>>", result);
+  //   try {
+  //     const response = await fetch(
+  //       "http://localhost:5000/api/users/login",
+  //       requestOptions
+  //     );
+  //     const result = await response.json();
+  //     console.log("result:>>>>", result);
 
-      const { token } = result;
+  //     const { token } = result;
 
-      if (token) {
-        localStorage.setItem("token", token);
-      }
-    } catch (error) {
-      console.log("error :>> ", error);
-    }
-  };
+  //     if (token) {
+  //       localStorage.setItem("token", token);
+  //       setUserLogged(result);
+  //     }
+  //   } catch (error) {
+  //     console.log("error :>> ", error);
+  //   }
+  // };
 
   return (
     <div>
@@ -50,25 +56,31 @@ function Login() {
             <label htmlFor="email">Email</label>
             <input
               type="text"
-              value={userLogin.email ? userLogin.email : ""}
+              // value={userLogin.email ? userLogin.email : ""}
               name="email"
               placeholder="Email"
-              onChange={handleChangeHandler}
+              ref={email}
+              // onChange={handleChangeHandler}
             />
           </div>
           <div>
             <label htmlFor="password">Password</label>
             <input
               type="password"
-              value={userLogin.password ? userLogin.password : ""}
+              // value={userLogin.password ? userLogin.password : ""}
               name="password"
               placeholder="Password"
-              onChange={handleChangeHandler}
+              ref={password}
+              // onChange={handleChangeHandler}
             />
           </div>
         </div>
       </div>
-      <button onClick={login}>Login</button>
+      <button
+        onClick={() => login(email.current.value, password.current.value)}
+      >
+        Login
+      </button>
     </div>
   );
 }
