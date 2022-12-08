@@ -1,5 +1,6 @@
 // 1. Import hook
 import { createContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 // import { useNavigate } from "react-router-dom";
 
 // 2. Create Context / Store
@@ -7,9 +8,12 @@ export const AuthContext = createContext();
 
 // 3. Create provider
 export const AuthContextProvider = (props) => {
+  const redirectTo = useNavigate();
   console.log("authcontext run");
   const [userLogged, setUserLogged] = useState();
 
+  // #################### PROFILE #################### //
+  // ############################################### //
   const profile = async () => {
     const token = localStorage.getItem("token");
     const myHeaders = new Headers();
@@ -27,7 +31,7 @@ export const AuthContextProvider = (props) => {
         requestOptions
       );
       const result = await response.json();
-      console.log("result :>> ", result);
+      // console.log("result :>> ", result);
       setUserLogged(result.user);
 
       console.log("userLogged", userLogged);
@@ -35,6 +39,9 @@ export const AuthContextProvider = (props) => {
       console.log(" error :>> ", error);
     }
   };
+
+  // #################### LOGIN #################### //
+  // ############################################### //
   const login = async (email, password) => {
     // console.log("userLogin :>> ", userLogin);
 
@@ -65,15 +72,22 @@ export const AuthContextProvider = (props) => {
       if (token) {
         localStorage.setItem("token", token);
         setUserLogged(result.user);
+        redirectTo("/");
       }
     } catch (error) {
       console.log("error :>> ", error);
     }
   };
+  // ############################################### //
+
+  // #################### LOGOUT #################### //
+  // ############################################### //
   const logout = () => {
     localStorage.removeItem("token");
     setUserLogged(false);
   };
+  // ############################################### //
+
   useEffect(() => {
     console.log("useEffect auth>>>");
     profile();

@@ -1,10 +1,10 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useRef } from "react";
 
 import { AuthContext } from "../context/authContext";
 
 function Login() {
   // const [userLogin, setUserLogin] = useState({});
-  const { userLogged, setUserLogged, login } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const email = useRef();
   const password = useRef();
 

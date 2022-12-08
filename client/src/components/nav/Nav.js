@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-// import "./Nav.js";
+import React, { useContext, useState } from "react";
+import "./Nav.css";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUsers, faRightToBracket } from "@fortawesome/free-solid-svg-icons";
@@ -8,6 +8,7 @@ import { AuthContext } from "../../context/authContext.js";
 
 function Nav() {
   const { userLogged } = useContext(AuthContext);
+  const [isOpen, setIsOpen] = useState(true);
   // console.log("userLogged", userLogged);
 
   const regIcon = <FontAwesomeIcon icon={faUsers} />;
@@ -31,7 +32,7 @@ function Nav() {
             />
           </div>
           <div>
-            <p>For the love of scents</p>
+            <p className="text-2xl">For the love of scents</p>
           </div>
         </div>
         {/* #### Here is the REGISTER, LOGIN || USER.IMG && LOGOUT  ##### */}
@@ -41,27 +42,29 @@ function Nav() {
           {!userLogged ? (
             <div>
               <Link to="register" className="flex ml-1">
-                <div>{regIcon}</div>
-                <div className="ml-1">Register</div>
+                <div className="text-xl">{regIcon}</div>
+                <div className="ml-1 text-xl">Register</div>
               </Link>
             </div>
           ) : (
-            <img
-              src={userLogged?.avatarPic}
-              alt="user pic"
-              style={{ height: "25px", width: " 25px", borderRadius: "50%" }}
-            />
+            <Link to="/profile">
+              <img
+                src={userLogged?.avatarPic}
+                alt="user pic"
+                style={{ height: "29px", width: " 29px", borderRadius: "50%" }}
+              />
+            </Link>
           )}
           {!userLogged ? (
             <div>
               <Link to="login" className="ml-1 flex mr-2">
-                <div>{logInIcon}</div>
-                <div className="ml-1">Log In</div>
+                <div className="text-xl">{logInIcon}</div>
+                <div className="ml-1 text-xl">Log In</div>
               </Link>
             </div>
           ) : (
             <div className="flex mr-2">
-              <VerticallyCenter />
+              <VerticallyCenter isOpen={isOpen} />
             </div>
           )}
         </div>
@@ -72,17 +75,17 @@ function Nav() {
         <ul className="flex space-x-6">
           <li>
             <Link to="/">
-              <span>Home</span>
+              <span className="barBtns">Home</span>
             </Link>
           </li>
           <li>
             <Link to="Perfumes">
-              <span>Perfumes</span>
+              <span className="barBtns">Perfumes</span>
             </Link>
           </li>
           <li>
             <Link to="ParfumoPhiloGram">
-              <span>ParfumoPhiloGram</span>
+              <span className="barBtns">ParfumoPhiloGram</span>
             </Link>
           </li>
           <li>

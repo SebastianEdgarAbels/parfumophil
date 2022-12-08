@@ -11,28 +11,39 @@ import {
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+
 import { useContext } from "react";
 import { AuthContext } from "../../context/authContext";
 
 const logOutIcon = <FontAwesomeIcon icon={faArrowRightFromBracket} />;
 
 function VerticallyCenter() {
+  console.log("modal run");
   const { logout } = useContext(AuthContext);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   if (isOpen === true) {
-    localStorage.removeItem("token");
+    // localStorage.removeItem("token");
+    logout();
   }
 
   return (
     <>
-      <input
+      {/* <input
         type="text"
         onClick={onOpen}
         id="icon"
         placeholder="Logout"
       ></input>
-      <label htmlFor="icon">{logOutIcon}</label>
+      <label htmlFor="icon">{logOutIcon}</label> */}
+
+      <div onClick={onOpen} className="text-xl">
+        {logOutIcon}
+      </div>
+      <div onClick={onOpen} className="text-xl">
+        Logout
+      </div>
 
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
