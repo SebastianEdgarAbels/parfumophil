@@ -18,15 +18,24 @@ import { AuthContext } from "../../context/authContext";
 const logOutIcon = <FontAwesomeIcon icon={faArrowRightFromBracket} />;
 
 function VerticallyCenter() {
-  console.log("modal run");
-  const { logout } = useContext(AuthContext);
+  // console.log("modal run");
+  const { logout, setUserLogged } = useContext(AuthContext);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  if (isOpen === true) {
-    // localStorage.removeItem("token");
+  // if (isOpen === true) {
+  //   localStorage.removeItem("token");
+  //   // logout();
+  // so because everytime I change smth that's on a state, the whole components which have that state will render (react) so the modal when I put it
+  // like this onOpen,the modal will open but just for a fraction of second ( the eye can 't see it)
+  // so this function here sets the userLogged on null and opens the modal and keep it open for a second then again it close it self
+  //   setTimeout(() => setUserLogged(null), 1000);
+  // }
+  //so this function it's an helping eventListener where I remove the token then trigger onClose - that means to close the modal there where was triggered
+  const closeModalAndLogout = () => {
     logout();
-  }
+    onClose();
+  };
 
   return (
     <>
@@ -45,7 +54,7 @@ function VerticallyCenter() {
         Logout
       </div>
 
-      <Modal onClose={onClose} isOpen={isOpen} isCentered>
+      <Modal onClose={closeModalAndLogout} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Logged Out!</ModalHeader>
@@ -54,7 +63,7 @@ function VerticallyCenter() {
             <p>You Logged Out! See you next time</p>
           </ModalBody>
           <ModalFooter>
-            <Button onClick={onClose}>Close</Button>
+            <Button onClick={closeModalAndLogout}>Close</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

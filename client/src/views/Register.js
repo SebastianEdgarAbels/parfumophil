@@ -104,7 +104,7 @@ function Register() {
                 name="userName"
                 ref={userName}
                 placeholder="Username"
-                // onChange={handleChangeHandler}
+                // onChange={handleChanandler}
                 className=" m-3"
               />
             </div>

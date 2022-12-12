@@ -1,5 +1,12 @@
 import express from "express";
 import {
+  deleteAvatarPic,
+  deleteUsersProfile,
+  updateAvatarPic,
+  updateUserName,
+} from "../controller/crudController.js";
+
+import {
   getProfile,
   imageUpload,
   login,
@@ -13,5 +20,9 @@ router.post("/uploadimage", upload.single("image"), imageUpload);
 router.post("/signup", signup);
 router.post("/login", login);
 router.get("/profile", jwtAuth, getProfile);
+router.delete("/deleteacc", deleteUsersProfile);
+router.put("/deletepic", deleteAvatarPic);
+router.put("/updateusername", jwtAuth, updateUserName);
+router.put("/updateavatarpic", jwtAuth, updateAvatarPic);
 
 export default router;

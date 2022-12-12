@@ -8,8 +8,8 @@ import { AuthContext } from "../../context/authContext.js";
 
 function Nav() {
   const { userLogged } = useContext(AuthContext);
-  const [isOpen, setIsOpen] = useState(true);
-  // console.log("userLogged", userLogged);
+
+  console.log("%cuserLogged in nav", "color:red", userLogged);
 
   const regIcon = <FontAwesomeIcon icon={faUsers} />;
   const logInIcon = <FontAwesomeIcon icon={faRightToBracket} />;
@@ -38,7 +38,7 @@ function Nav() {
         {/* #### Here is the REGISTER, LOGIN || USER.IMG && LOGOUT  ##### */}
         {/* ############################################################# */}
         <div className="flex gap-3">
-          {console.log("userLogged>>>>", userLogged)}
+          {/* {console.log("userLogged>>>>", userLogged)} */}
           {!userLogged ? (
             <div>
               <Link to="register" className="flex ml-1">
@@ -64,7 +64,7 @@ function Nav() {
             </div>
           ) : (
             <div className="flex mr-2">
-              <VerticallyCenter isOpen={isOpen} />
+              <VerticallyCenter />
             </div>
           )}
         </div>

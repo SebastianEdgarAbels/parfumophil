@@ -8,14 +8,17 @@ export const AuthContext = createContext();
 
 // 3. Create provider
 export const AuthContextProvider = (props) => {
+  const [isLoading, setIsLoading] = useState(true);
   const redirectTo = useNavigate();
-  console.log("authcontext run");
-  const [userLogged, setUserLogged] = useState();
+  // console.log("authcontext run");
+  const [userLogged, setUserLogged] = useState(null);
+  const [deletedUser, setDeletedUser] = useState(false);
 
   // #################### PROFILE #################### //
   // ############################################### //
   const profile = async () => {
     const token = localStorage.getItem("token");
+    // console.log("%ctoken authcontext profile", "color:green", token);
     const myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
 
@@ -32,10 +35,14 @@ export const AuthContextProvider = (props) => {
       );
       const result = await response.json();
       // console.log("result :>> ", result);
-      setUserLogged(result.user);
+      if (token) {
+        setUserLogged(result);
+      }
 
-      console.log("userLogged", userLogged);
+      setIsLoading(false);
+      // console.log("userLogged", userLogged);
     } catch (error) {
+      setIsLoading(false);
       console.log(" error :>> ", error);
     }
   };
@@ -72,6 +79,7 @@ export const AuthContextProvider = (props) => {
       if (token) {
         localStorage.setItem("token", token);
         setUserLogged(result.user);
+
         redirectTo("/");
       }
     } catch (error) {
@@ -84,7 +92,7 @@ export const AuthContextProvider = (props) => {
   // ############################################### //
   const logout = () => {
     localStorage.removeItem("token");
-    setUserLogged(false);
+    setUserLogged(null);
   };
   // ############################################### //
 
@@ -94,7 +102,17 @@ export const AuthContextProvider = (props) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ userLogged, setUserLogged, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        userLogged,
+        setUserLogged,
+        login,
+        logout,
+        isLoading,
+        deletedUser,
+        setDeletedUser,
+      }}
+    >
       {props.children}
     </AuthContext.Provider>
   );

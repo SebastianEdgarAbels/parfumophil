@@ -7,6 +7,7 @@ import issueToken from "../utils/jwt.js";
 //############## Image upload ##############//
 //##########################################//
 const imageUpload = async (req, res) => {
+  // because is a form is .file i think i have to ask !!!!!!!!!!!
   console.log("req.file :>> ", req.file);
   try {
     const uploadResult = await cloudinary.uploader.upload(req.file.path, {
@@ -130,8 +131,11 @@ const login = async (req, res) => {
 //######################## PROFILE ########################//
 //########################################################//
 const getProfile = async (req, res) => {
-  const { userName, email, avatarPic } = req.user;
+  // here is req.user because i've made that strategy in passport.js
+  const { id, userName, email, avatarPic } = req.user;
+  console.log("req.user :>> ", req.user);
   res.status(200).json({
+    _id: id,
     userName: userName,
     email: email,
     avatarPic: avatarPic,

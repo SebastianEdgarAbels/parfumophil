@@ -13,6 +13,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { PerfumesContextProvider } from "./context/perfumesContext";
 import Profile from "./views/Profile.js";
 import ProtectedRoute from "./components/ProtectedRoute.js";
+import DeletedUser from "./views/DeletedUser.js";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route path="parfumophilogram" element={<ParfumoPhiloGram />} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
+            <Route path="/deleteduser" element={<DeletedUser />} />
             <Route
               path="/profile"
               element={

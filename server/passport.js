@@ -14,6 +14,7 @@ var opts = {
 };
 
 // create the var that it's gonna be used as a strategy
+// done is a callback
 const jwtStrategy = new JwtStrategy(opts, function (jwt_payload, done) {
   userModel.findOne({ _id: jwt_payload.sub }, function (err, user) {
     if (err) {
