@@ -5,6 +5,7 @@ import {
   faPen,
   faTrash,
   faFileArrowUp,
+  faCircleXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
@@ -14,17 +15,53 @@ function Profile() {
   const [newUserName, setNewUserName] = useState();
   const token = localStorage.getItem("token");
   const [isPTag, setPTag] = useState(true);
+  const [isIMGTag, setIMGTag] = useState(true);
+  const [selectedFile, setSelectedFile] = useState({});
 
   // console.log("userLogged", userLogged);
 
   const editIcon = <FontAwesomeIcon icon={faPen} />;
   const deleteIcon = <FontAwesomeIcon icon={faTrash} />;
   const uploadIcon = <FontAwesomeIcon icon={faFileArrowUp} />;
+  const closeIcon = <FontAwesomeIcon icon={faCircleXmark} />;
 
-  const handlerEditImg = () => {
+  // #################################### UPDATE AVATAR PICTURE #################################### //
+  // ############################################################################################## //
+
+  const attachFileHandler = (e) => {
+    console.log("e.target.files[0]", e.target.files[0]);
+    setSelectedFile(e.target.files[0]);
+  };
+
+  const submitUpdatePicture = async () => {
     console.log("editImg :>> ", userLogged._id);
     console.log("token", token);
+
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+
+    const formdata = new FormData();
+    formdata.append("image", selectedFile);
+
+    const requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: formdata,
+      redirect: "follow",
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/users/updateavatarpic",
+        requestOptions
+      );
+      const result = await response.json();
+      console.log("result", result);
+    } catch (error) {
+      console.log("error from updating avatar picture :>> ", error);
+    }
   };
+  // ############################################################################################## //
 
   // ########################### HANDLER UPDATE USERNAME ########################### //
 
@@ -162,22 +199,34 @@ function Profile() {
           </div>
           <div>
             <p className="font-bold">Avatar Picture </p>
-            {isPTag ? ( <img
-              src={userLogged?.avatarPic}
-              alt="avatarPicture"
-              className="rounded-[10%] w-[230px] h-[200px]"
-            />) : (<input
+            {isIMGTag ? (
+              <img
+                onClick={() => setIMGTag(false)}
+                src={userLogged?.avatarPic}
+                alt="avatarPicture"
+                className="rounded-[10%] w-[230px] h-[200px]"
+              />
+            ) : (
+              <div>
+                <input
                   autoFocus
-                  onClick={() => setPTag(true)}
+                  onClick={() => setIMGTag(false)}
                   type="file"
-                  placeholder={userLogged.userName}
-                  onChange={handleFormUserNameHandler}
-                />)
+                  name="file"
+                  id="file"
+                  onChange={attachFileHandler}
+                />
+                <button onClick={() => setIMGTag(true)}>{closeIcon}</button>
+                <button onClick={(e) => submitUpdatePicture(e)}>
+                  {uploadIcon}
+                </button>
+              </div>
+            )}
             <div className="flex justify-center gap-3">
-              <p onClick={handlerEditImg}>{editIcon}</p>
+              <p onClick={() => setIMGTag(false)}>{editIcon}</p>
               <p onClick={handlerDeleteImg}>{deleteIcon}</p>
             </div>
-            
+
             <div className="flex gap-2 ">
               <p>Delete your Account? </p>
               <p onClick={handlerDeleteAcc}>{deleteIcon}</p>
