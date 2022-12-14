@@ -8,7 +8,7 @@ import issueToken from "../utils/jwt.js";
 //##########################################//
 const imageUpload = async (req, res) => {
   // because is a form is .file i think i have to ask !!!!!!!!!!!
-  console.log("req.file :>> ", req.file);
+  console.log("req.file from usersController line11 :>> ", req.file);
   try {
     const uploadResult = await cloudinary.uploader.upload(req.file.path, {
       folder: "usersImgProfile",
@@ -17,6 +17,7 @@ const imageUpload = async (req, res) => {
     res.status(200).json({
       msg: "image successfully uploaded",
       image: uploadResult.url,
+      ImgPublic_id: uploadResult.public_id,
     });
   } catch (error) {
     res.status(500).json({
@@ -29,11 +30,11 @@ const imageUpload = async (req, res) => {
 //################### SIGN UP ###################//
 //###############################################//
 const signup = async (req, res) => {
-  console.log("req.body", req.body);
+  console.log("req.body in the signup from uC", req.body);
   const { email, password, userName } = req.body;
   console.log("password :>> ", typeof password);
   // here I can and I should use the express validator
-  // const isEmailValid = validateEmail(email) then create isEmailValid in another folder
+  // const isEmailValid = validateEmail(email); //then create isEmailValid in another folder
   // using the express logic here to check if the email is valid
   try {
     const existingUser = await userModel.findOne({ email: email });
@@ -52,6 +53,7 @@ const signup = async (req, res) => {
         email: email,
         password: hashedPassword,
         userName: userName,
+        ImgPublic_id: req.body.ImgPublic_id ? req.body.ImgPublic_id : "",
         avatarPic: req.body.avatarPic
           ? req.body.avatarPic
           : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
@@ -113,6 +115,7 @@ const login = async (req, res) => {
             id: existingUser._id,
             email: existingUser.email,
             avatarPic: existingUser.avatarPic,
+            ImgPublic_id: existingUser.ImgPublic_id,
           },
           token,
         });

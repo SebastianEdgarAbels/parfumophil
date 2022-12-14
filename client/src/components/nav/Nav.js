@@ -9,13 +9,14 @@ import { AuthContext } from "../../context/authContext.js";
 function Nav() {
   const { userLogged } = useContext(AuthContext);
 
-  console.log("%cuserLogged in nav", "color:red", userLogged);
+  // console.log("%cuserLogged in nav", "color:red", userLogged);
 
   const regIcon = <FontAwesomeIcon icon={faUsers} />;
   const logInIcon = <FontAwesomeIcon icon={faRightToBracket} />;
 
   // const token = localStorage.getItem("token");
   // console.log("token :>> ", token);
+  // console.log("userLogged from the nav", userLogged);
 
   return (
     <div>

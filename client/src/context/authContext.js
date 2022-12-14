@@ -72,7 +72,7 @@ export const AuthContextProvider = (props) => {
         requestOptions
       );
       const result = await response.json();
-      console.log("result:>>>>", result);
+      console.log("result from the login in the authcontext :>>>>", result);
 
       const { token } = result;
 

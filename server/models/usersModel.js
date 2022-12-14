@@ -20,6 +20,9 @@ const userSchema = new Schema({
   avatarPic: {
     type: String,
   },
+  ImgPublic_id: {
+    type: String,
+  },
 });
 
 const userModel = mongoose.model("user", userSchema);

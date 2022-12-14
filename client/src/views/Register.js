@@ -8,17 +8,20 @@ function Register() {
   const [selectedFile, setSelectedFile] = useState({});
   // const [newUser, setNewUser] = useState({});
   const [avatarPicture, setAvatarPicture] = useState("");
+  const [imgCloudinaryID, setImgCloudinaryID] = useState("");
   const email = useRef();
   const password = useRef();
   const userName = useRef();
-  // eventListener
+
+  // attach the IMG
   const attachFileHandler = (e) => {
+    // console.log("first", e.target.files[0]);
     setSelectedFile(e.target.files[0]);
   };
 
-  // eventListener
+  // submit the IMG
   const submitForm = async (e) => {
-    console.log("selectedFile", selectedFile);
+    // console.log("selectedFile", selectedFile);
     e.preventDefault();
 
     const formdata = new FormData();
@@ -36,8 +39,11 @@ function Register() {
     );
     const result = await response.json();
     setAvatarPicture(result.image);
-    console.log("result :>> ", result);
+    setImgCloudinaryID(result.ImgPublic_id);
+    console.log("result with the id :>> ", result.ImgPublic_id);
   };
+  // console.log("avatarPictures :>> ", avatarPicture);
+  // console.log("imgCloudinaryID :>> ", imgCloudinaryID);
 
   // eventListener
   // const handleChangeHandler = (e) => {
@@ -58,7 +64,6 @@ function Register() {
   const signup = async () => {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-
     const urlencoded = new URLSearchParams();
     urlencoded.append("email", email.current.value);
     urlencoded.append("password", password.current.value);
@@ -69,7 +74,7 @@ function Register() {
         ? avatarPicture
         : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
     );
-
+    urlencoded.append("ImgPublic_id", imgCloudinaryID ? imgCloudinaryID : "");
     const requestOptions = {
       method: "POST",
       headers: myHeaders,
@@ -82,7 +87,7 @@ function Register() {
         requestOptions
       );
       const result = await response.json();
-      console.log("result", result);
+      // console.log("result", result);
       redirectTo("/login");
     } catch (error) {
       console.log("error :>> ", error);

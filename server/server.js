@@ -8,6 +8,7 @@ import usersRoutes from "./routes/usersRoutes.js";
 import cloudinaryConfig from "./cloudinary.js";
 import passport from "passport";
 import passportConfig from "./passport.js";
+import philoGramRoutes from "./routes/philoGramRoutes.js";
 
 // loading .env file
 dotenv.config();
@@ -46,6 +47,7 @@ const loadRoutes = () => {
   app.use("/api", router);
   app.use("/api/perfumes", perfumesRoutes);
   app.use("/api/users", usersRoutes);
+  app.use("/api/philogram", philoGramRoutes);
 };
 
 const mongoDBConnection = async () => {

@@ -23,6 +23,12 @@ router.get("/profile", jwtAuth, getProfile);
 router.delete("/deleteacc", deleteUsersProfile);
 router.put("/deletepic", deleteAvatarPic);
 router.put("/updateusername", jwtAuth, updateUserName);
-router.put("/updateavatarpic", jwtAuth, updateAvatarPic);
+// can i use also 2 middlewares like upload and jwt ? YES
+router.put(
+  "/updateavatarpic",
+  jwtAuth,
+  upload.single("image"),
+  updateAvatarPic
+);
 
 export default router;
