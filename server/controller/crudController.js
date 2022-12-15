@@ -30,28 +30,49 @@ const updateUserName = async (req, res) => {
 
 // ######################### UPDATE USERS AVATAR pic ######################### //
 const updateAvatarPic = async (req, res) => {
-  console.log("req.file :>> ", req.file);
+  console.log("req.file from user img update line 33:>> ", req.file);
 
   const { _id } = req.user;
-  console.log("req.user :>> ", req.user);
+  console.log("req.user from user img update line 36:>> ", req.user);
+  console.log("req.user.ImgPublic_id lalaalal :>> ", req.user.ImgPublic_id);
 
   /* It's uploading the image to the cloudinary server. */
   try {
+    // first delete the old 1 in the cloudinary
+    if (req.user.ImgPublic_id !== "") {
+      console.log(
+        "req.user.ImgPublic_id in update crud",
+        req.user.ImgPublic_id
+      );
+      const deletePicFromCloudinary = await cloudinary.uploader
+        .destroy(req.user.ImgPublic_id)
+        .then((result) =>
+          console.log(
+            "result from deleting the pic before uploading new one",
+            result
+          )
+        );
+      console.log("deletePicFromCloudinary", deletePicFromCloudinary);
+    }
+
+    // if (deletePicFromCloudinary) {
+    // then upload the new 1 in the clodinary
     const uploadResult = await cloudinary.uploader.upload(req.file.path, {
       folder: "usersImgProfile",
     });
     console.log("uploadResult", uploadResult);
 
+    // if the upload is successfull, then save it also in mongoDB
     if (uploadResult) {
       try {
         const updatePic = await userModel.findOneAndUpdate(
           { _id: _id },
-          { avatarPic: uploadResult.url },
+          { avatarPic: uploadResult.url, ImgPublic_id: uploadResult.public_id },
           { new: true }
         );
         res.status(200).json({
           msg: "New Avatar Picture successfully uploaded",
-          updatePic,
+          updatePic: updatePic,
         });
       } catch (error) {
         console.log("error from uploading the avatar Picture", error);
@@ -60,6 +81,7 @@ const updateAvatarPic = async (req, res) => {
         });
       }
     }
+    // }
   } catch (error) {
     res.status(500).json({
       msg: "something went wrong during upload",
@@ -73,25 +95,28 @@ const updateAvatarPic = async (req, res) => {
 
 // ######################### DELETE (users avatarPic) ######################### //
 const deleteAvatarPic = async (req, res) => {
-  const { id, avatarPic } = req.body;
-  console.log("req.body din crud:>> ", req);
+  const { id, ImgPublic_id } = req.body;
+  console.log("req.body din crud:>> ", req.body.ImgPublic_id);
   // cloudinary.api
   //   .resource(avatarPic)
   //   .then((res) => console.log("res :>> ", res))
   //   .catch((err) => console.log("err :>> ", err));
   try {
-    // HERE HERE HERE HERE HERE HERE  // HERE HERE HERE HERE HERE HERE
+    // here i delete the image from cloudinary
     const deletePicFromCloudinary = await cloudinary.uploader.destroy(
-      "usersImgProfile/ab4twnruhjegowrph4bh"
+      ImgPublic_id
     );
-    // const deletePic = await userModel.findOneAndUpdate(
-    //   { _id: id },
-    //   {
-    //     avatarPic:
-    //       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
-    //   },
-    //   { new: true }
-    // );
+    // console.log("ImgPublic_id", ImgPublic_id);
+
+    // console.log("deletePicFromCloudinary :>> ", deletePicFromCloudinary);
+    const deletePic = await userModel.findOneAndUpdate(
+      { _id: id },
+      {
+        avatarPic:
+          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
+      },
+      { new: true }
+    );
     res.status(200).json({
       msg: "Avatar Picture deleted!",
     });
@@ -103,10 +128,12 @@ const deleteAvatarPic = async (req, res) => {
 
 // ######################### DELETE (users profile) ######################### //
 const deleteUsersProfile = async (req, res) => {
-  const { id } = req.body;
+  const { id, ImgPublic_id } = req.body;
 
   try {
-    // HERE HERE HERE HERE HERE HERE   // HERE ASWELL
+    const deletePicFromCloudinary = await cloudinary.uploader.destroy(
+      ImgPublic_id
+    );
     const deleteUser = await userModel.findByIdAndDelete({ _id: id });
     res.status(200).json({
       msg: "Youre profile is successfully deleted!",

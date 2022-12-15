@@ -34,7 +34,7 @@ export const AuthContextProvider = (props) => {
         requestOptions
       );
       const result = await response.json();
-      // console.log("result :>> ", result);
+      console.log("result from authContext :>> ", result);
       if (token) {
         setUserLogged(result);
       }
@@ -79,7 +79,6 @@ export const AuthContextProvider = (props) => {
       if (token) {
         localStorage.setItem("token", token);
         setUserLogged(result.user);
-
         redirectTo("/");
       }
     } catch (error) {

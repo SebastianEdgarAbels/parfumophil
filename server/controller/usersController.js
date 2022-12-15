@@ -88,7 +88,7 @@ const login = async (req, res) => {
 
   try {
     const existingUser = await userModel.findOne({ email: email });
-    console.log("existingUser", existingUser);
+    // console.log("existingUser", existingUser);
 
     if (!existingUser) {
       res.status(200).json({
@@ -96,16 +96,16 @@ const login = async (req, res) => {
       });
     } else {
       const verified = await isPasswordValid(password, existingUser.password);
-      console.log("verified :>> ", verified);
+      // console.log("verified :>> ", verified);
       if (!verified) {
         res.status(401).json({
           msg: "incorrect password",
         });
       }
       if (verified) {
-        console.log("verified :>> ", verified);
+        // console.log("verified :>> ", verified);
         const token = issueToken(existingUser._id);
-        console.log("token", token);
+        // console.log("token", token);
 
         // this creates/generates the result
         res.status(200).json({
@@ -135,13 +135,14 @@ const login = async (req, res) => {
 //########################################################//
 const getProfile = async (req, res) => {
   // here is req.user because i've made that strategy in passport.js
-  const { id, userName, email, avatarPic } = req.user;
-  console.log("req.user :>> ", req.user);
+  const { id, userName, email, avatarPic, ImgPublic_id } = req.user;
+  // console.log("req.user :>> ", req.user);
   res.status(200).json({
     _id: id,
     userName: userName,
     email: email,
     avatarPic: avatarPic,
+    ImgPublic_id: ImgPublic_id,
   });
 };
 

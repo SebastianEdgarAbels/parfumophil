@@ -18,7 +18,7 @@ function Profile() {
   const [isIMGTag, setIMGTag] = useState(true);
   const [selectedFile, setSelectedFile] = useState({});
 
-  // console.log("userLogged", userLogged);
+  console.log("userLogged", userLogged);
 
   const editIcon = <FontAwesomeIcon icon={faPen} />;
   const deleteIcon = <FontAwesomeIcon icon={faTrash} />;
@@ -106,11 +106,15 @@ function Profile() {
   // ########################### HANDLER DELETE IMG ########################### //
   const handlerDeleteImg = async () => {
     console.log("deleteImg", userLogged._id);
+    console.log("deleteImg", userLogged);
+
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
     const urlencoded = new URLSearchParams();
     urlencoded.append("id", userLogged._id);
+    urlencoded.append("avatarPic", userLogged.avatarPic);
+    urlencoded.append("ImgPublic_id", userLogged.ImgPublic_id);
 
     const requestOptions = {
       method: "PUT",
@@ -121,23 +125,26 @@ function Profile() {
 
     try {
       const response = await fetch(
-        fetch("http://localhost:5000/api/users/deletepic", requestOptions)
+        "http://localhost:5000/api/users/deletepic",
+        requestOptions
       );
       const result = await response.json();
-      console.log("result from the delete picture action", result);
-    } catch (error) {}
+      console.log("result :>> ", result);
+    } catch (error) {
+      console.log("error from deleting the imgage", error);
+    }
   };
 
   // ########################### HANDLER DELETE ACC ########################### //
-  // here i have a strange behavior in the redirected page DeletedUser when i refresh !!!!
+
   const handlerDeleteAcc = async () => {
-    // when i delete the acc i have to append the logout function as well !!!!!!!!!!!!
-    console.log("handlerDeleteAcc", userLogged.id);
+    console.log("handlerDeleteAcc", userLogged._id);
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
     const urlencoded = new URLSearchParams();
     urlencoded.append("id", userLogged.id);
+    urlencoded.append("ImgPublic_id", userLogged.ImgPublic_id);
 
     const requestOptions = {
       method: "DELETE",

@@ -3,7 +3,7 @@ import perfumeModel from "../models/perfumesModel.js";
 const getAllPerfumes = async (req, res) => {
   try {
     const allPerfumes = await perfumeModel.find({});
-    console.log("all Perfumes", allPerfumes);
+    // console.log("all Perfumes", allPerfumes);
     // send the res to our front-end and in the front-end I will have a const res.json and then I will map this
     res.status(200).json({ number: allPerfumes.length, allPerfumes });
   } catch (error) {
