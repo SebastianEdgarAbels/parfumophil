@@ -10,7 +10,12 @@ const upload = multer({
     // to indicate if the file should be accepted]
     // ?? extract the extension for my files and for that ->
     let extension = path.extname(file.originalname); // "file" is an object with many prop and one of them is originalname
-    if (extension !== ".jpg" && extension !== ".jpeg" && extension !== ".png") {
+    if (
+      extension !== ".jpg" &&
+      extension !== ".jpeg" &&
+      extension !== ".png" &&
+      extension !== ".mp4"
+    ) {
       // To reject this file pass `false`, like so:
       cb(new Error("File extension not supported", false));
       return;

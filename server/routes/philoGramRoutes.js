@@ -1,10 +1,15 @@
 import express from "express";
-import { philogram } from "../controller/philoGramController.js";
-// import jwtAuth from "../middlewares/jwtAuth.js";
-// import upload from "../middlewares/multer.js";
+import {
+  allPhilogram,
+  imgUploadGram,
+  videoUpload,
+} from "../controller/philoGramController.js";
+import jwtAuth from "../middlewares/jwtAuth.js";
+import upload from "../middlewares/multer.js";
 const router = express.Router();
 
-router.get("/all", philogram);
-router.post("/");
+router.get("/all", allPhilogram);
+router.post("/uploadImageGram", upload.array("image"), jwtAuth, imgUploadGram);
+router.post("/uploadvideo", upload.single("video"), jwtAuth, videoUpload);
 
 export default router;

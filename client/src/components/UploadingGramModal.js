@@ -43,16 +43,19 @@ function UploadingGramModal() {
               <div className="mr-3">
                 <div>
                   {/* how to make it work */}
-                  <i className="fa-solid fa-camera">{picIcon}</i>
-                </div>
-                <div>
+                  <label for="multiplePicUpload">
+                    <i className="fa-solid fa-camera">{picIcon}</i>
+                  </label>
+
                   <input
                     type="file"
                     name="pic"
-                    id="pic"
+                    id="multiplePicUpload"
                     style={{ display: "none" }}
+                    multiple
                   />
                 </div>
+                <div></div>
                 <div>
                   {/* how to make it work */}
 

@@ -3,11 +3,15 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const postSchema = new Schema({
-  pics: {
-    type: Array,
-  },
+  pics: [
+    {
+      public_id: String,
+      url: String,
+    },
+  ],
   video: {
-    type: String,
+    public_id: String,
+    url: String,
   },
   perfumeTag: {
     type: String,
