@@ -6,6 +6,12 @@ const postSchema = new Schema({
   pics: {
     type: Array,
   },
+  video: {
+    type: String,
+  },
+  perfumeTag: {
+    type: String,
+  },
   text: {
     type: String,
   },
@@ -13,9 +19,12 @@ const postSchema = new Schema({
     type: Array,
   },
   // where do i put the id of the user ?
-  author: { type: "user" },
+  author: { type: Object },
   // populate with user id the postModel
   // comments model with auth, text, auth_id, date
+  date: {
+    type: Date,
+  },
   //
 });
 

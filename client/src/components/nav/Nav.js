@@ -22,23 +22,24 @@ function Nav() {
     <div>
       {/* #### Here is the IMG and the TEXT ##### */}
       {/* ####################################### */}
-      <div className="flex justify-center">
-        <div className="flex justify-center items-baseline grow">
+      <div className="flex lg:justify-center md:justify-center sm:justify-between">
+        <div className="flex justify-center items-baseline lg:grow">
           <div>
             <img
               src="/nose.png"
               alt="nose in love"
-              width={"65rem"}
-              className="ml-[10rem] rounded-[15px]"
+              className="ml-[10rem] rounded-[15px] w-16 "
             />
           </div>
           <div>
-            <p className="text-2xl">For the love of scents</p>
+            <p className="lg:text-2xl md:text-2xl sm:text-xls ">
+              For the love of scents
+            </p>
           </div>
         </div>
         {/* #### Here is the REGISTER, LOGIN || USER.IMG && LOGOUT  ##### */}
         {/* ############################################################# */}
-        <div className="flex gap-3">
+        <div className="flex gap-3 ">
           {/* {console.log("userLogged>>>>", userLogged)} */}
           {!userLogged ? (
             <div>

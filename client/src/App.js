@@ -14,6 +14,7 @@ import { PerfumesContextProvider } from "./context/perfumesContext";
 import Profile from "./views/Profile.js";
 import ProtectedRoute from "./components/ProtectedRoute.js";
 import DeletedUser from "./views/DeletedUser.js";
+import Footer from "./components/footer/Footer";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <ChakraProvider>
             <Nav />
           </ChakraProvider>
+
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="perfumes" element={<Perfumes />} />

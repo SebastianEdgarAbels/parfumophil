@@ -10,7 +10,7 @@ const goTopIcon = <FontAwesomeIcon icon={faArrowUp} />;
 
 function Footer() {
   return (
-    <footer className="bg-gray-400 text-center bg-[rgba(255, 156, 0, 0.2)] mt-[100%]">
+    <footer className="bg-gray-400 text-center bg-[rgba(255, 156, 0, 0.2)] mt-auto">
       <div className="flex justify-between ">
         <div>
           <Button>{goBackIcon}</Button>

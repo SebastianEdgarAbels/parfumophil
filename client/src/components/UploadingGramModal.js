@@ -10,11 +10,19 @@ function UploadingGramModal() {
 
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => setShow(false); // here i have to send the data to backend!!!!! this is the eventHandler for save
   const handleShow = () => setShow(true);
 
   const picIcon = <FontAwesomeIcon icon={faCamera} />;
   const videoIcon = <FontAwesomeIcon icon={faVideo} />;
+
+  const handlerPerfumeTag = (e) => {
+    console.log("e.target.value handlerPerfumeTag :>> ", e.target.value);
+  };
+
+  const handlerCommArea = (e) => {
+    console.log("e.target.value handlerCommArea", e.target.value);
+  };
 
   return (
     <>
@@ -33,14 +41,38 @@ function UploadingGramModal() {
               controlId="exampleForm.ControlInput1"
             >
               <div className="mr-3">
-                <div>{picIcon}</div>
-                <div>{videoIcon}</div>
+                <div>
+                  {/* how to make it work */}
+                  <i className="fa-solid fa-camera">{picIcon}</i>
+                </div>
+                <div>
+                  <input
+                    type="file"
+                    name="pic"
+                    id="pic"
+                    style={{ display: "none" }}
+                  />
+                </div>
+                <div>
+                  {/* how to make it work */}
+
+                  <i className="fa-solid fa-video">{videoIcon}</i>
+                </div>
+                <div>
+                  <input
+                    type="file"
+                    name="video"
+                    id="video"
+                    style={{ display: "none" }}
+                  />
+                </div>
               </div>
               <Form.Label></Form.Label>
               <Form.Control
                 type="email"
                 placeholder="Tag perfume in your photo or video"
                 autoFocus
+                onChange={handlerPerfumeTag}
               />
             </Form.Group>
             <Form.Group
@@ -48,7 +80,7 @@ function UploadingGramModal() {
               controlId="exampleForm.ControlTextarea1"
             >
               <Form.Label>Add some words to it</Form.Label>
-              <Form.Control as="textarea" rows={3} />
+              <Form.Control as="textarea" rows={3} onChange={handlerCommArea} />
             </Form.Group>
           </Form>
         </Modal.Body>
