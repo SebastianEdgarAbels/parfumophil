@@ -15,7 +15,7 @@ function Register() {
 
   // attach the IMG
   const attachFileHandler = (e) => {
-    // console.log("first", e.target.files[0]);
+    console.log("first", e.target.files[0]);
     setSelectedFile(e.target.files[0]);
   };
 

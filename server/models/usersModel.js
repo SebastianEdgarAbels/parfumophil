@@ -23,6 +23,18 @@ const userSchema = new Schema({
   ImgPublic_id: {
     type: String,
   },
+  post: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "post",
+    },
+  ],
+  // comment: [
+  //   {
+  //     type: Schema.Types.ObjectId,
+  //     ref: "comment",
+  //   },
+  // ],
 });
 
 const userModel = mongoose.model("user", userSchema);

@@ -1,4 +1,3 @@
-import { faNoteSticky } from "@fortawesome/free-solid-svg-icons";
 import React, { useEffect, useState } from "react";
 // here i will put pich with parfumes and if a user clicks on 1 will be redirected to another page with more details
 function Perfumes() {

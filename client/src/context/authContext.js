@@ -34,7 +34,7 @@ export const AuthContextProvider = (props) => {
         requestOptions
       );
       const result = await response.json();
-      console.log("result from authContext :>> ", result);
+      // console.log("result from authContext :>> ", result);
       if (token) {
         setUserLogged(result);
       }

@@ -5,6 +5,7 @@ const { Schema } = mongoose;
 const postSchema = new Schema({
   pics: [
     {
+      _id: false,
       public_id: String,
       url: String,
     },
@@ -19,11 +20,9 @@ const postSchema = new Schema({
   text: {
     type: String,
   },
-  comments: {
-    type: Array,
-  },
+  comments: [{ type: Schema.Types.ObjectId, ref: "comment" }],
   // where do i put the id of the user ?
-  author: { type: Object },
+  user: [{ type: Schema.Types.ObjectId, ref: "user" }],
   // populate with user id the postModel
   // comments model with auth, text, auth_id, date
   date: {

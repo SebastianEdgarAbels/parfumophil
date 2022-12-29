@@ -61,9 +61,13 @@ const signup = async (req, res) => {
 
       try {
         const savedUser = await newUser.save();
+        const populateSavedUser = await savedUser.populate({
+          path: "comment",
+          select: ["text", "date"],
+        });
         res.status(201).json({
           msg: "User Registered successfully ",
-          user: savedUser,
+          user: populateSavedUser,
         });
       } catch (error) {
         console.log("error :>> ", error);
@@ -110,13 +114,14 @@ const login = async (req, res) => {
         // this creates/generates the result
         res.status(200).json({
           msg: "Successfully logged in",
-          user: {
-            userName: existingUser.userName,
-            id: existingUser._id,
-            email: existingUser.email,
-            avatarPic: existingUser.avatarPic,
-            ImgPublic_id: existingUser.ImgPublic_id,
-          },
+          // user: {
+          //   userName: existingUser.userName,
+          //   id: existingUser._id,
+          //   email: existingUser.email,
+          //   avatarPic: existingUser.avatarPic,
+          //   ImgPublic_id: existingUser.ImgPublic_id,
+          // },
+          user: existingUser,
           token,
         });
         // i remain here where i have to send the res to the front-end min 1.01.30
