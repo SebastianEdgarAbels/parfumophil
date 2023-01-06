@@ -15,6 +15,8 @@ import Profile from "./views/Profile.js";
 import ProtectedRoute from "./components/ProtectedRoute.js";
 import DeletedUser from "./views/DeletedUser.js";
 import Footer from "./components/footer/Footer";
+import { PhiloGramContextProvider } from "./context/philogramContext.js";
+import PerfumoPhiloGramView from "./views/PerfumoPhiloGramView";
 
 function App() {
   return (
@@ -24,25 +26,32 @@ function App() {
           <ChakraProvider>
             <Nav />
           </ChakraProvider>
+          <PhiloGramContextProvider>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="perfumes" element={<Perfumes />} />
 
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="perfumes" element={<Perfumes />} />
-            <Route path="parfumophilogram" element={<ParfumoPhiloGram />} />
-            <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
-            <Route path="/deleteduser" element={<DeletedUser />} />
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              }
-            />
+              <Route path="parfumophilogram" element={<ParfumoPhiloGram />} />
+              <Route
+                path="perfumophilogramview/:id"
+                element={<PerfumoPhiloGramView />}
+              />
 
-            {/* <Route path="/Home" element={<About />} /> */}
-          </Routes>
+              <Route path="login" element={<Login />} />
+              <Route path="register" element={<Register />} />
+              <Route path="/deleteduser" element={<DeletedUser />} />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* <Route path="/Home" element={<About />} /> */}
+            </Routes>
+          </PhiloGramContextProvider>
         </PerfumesContextProvider>
       </AuthContextProvider>
     </>

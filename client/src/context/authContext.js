@@ -22,7 +22,7 @@ export const AuthContextProvider = (props) => {
     const myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
 
-    var requestOptions = {
+    const requestOptions = {
       method: "GET",
       headers: myHeaders,
       redirect: "follow",

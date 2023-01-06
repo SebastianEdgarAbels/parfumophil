@@ -31,6 +31,44 @@ const allPhilogram = async (req, res) => {
 };
 // ################################################################################### //
 
+// ################################# GET 1 Post by ID PHILOGRAM ######################################### //
+const getPostById = async (req, res) => {
+  console.log("req.params", req.params);
+
+  const { id } = req.params;
+  console.log("id", id);
+
+  try {
+    const reqPost = await postModel
+      .findById(id)
+      .populate({ path: "user", select: ["_id", "userName", "avatarPic"] })
+      .populate({
+        path: "comments",
+        populate: {
+          path: "author",
+          model: "user",
+        },
+      })
+      .exec();
+    // console.log("reqPost", reqPost);
+    res.status(200).json({
+      pics: reqPost.pics,
+      user: reqPost.user,
+      date: reqPost.date,
+      tag: reqPost.perfumeTag,
+      text: reqPost.text,
+      comments: reqPost.comments,
+    });
+  } catch (error) {
+    console.log("error getting the res :>> ", error);
+    res.status(500).json({
+      error: error,
+      msg: "didn't found the post with that id",
+    });
+  }
+};
+// ################################################################################### //
+
 // ######################### CREATE (Upload new pic(s) to cloudinary) ######################### //
 const uploadToCloud = async (file) => {
   try {
@@ -166,4 +204,43 @@ const createComment = async (req, res) => {
 };
 // ################################################################################### //
 
-export { allPhilogram, imgUploadGram, videoUpload, postThread, createComment };
+// ################################ DELETE (Comments) ################################ //
+
+const deleteComment = async (req, res) => {
+  // console.log("req.body", req.body);
+  // console.log("req.params :>> ", req.params);
+  const { commentId } = req.body;
+  const { id } = req.params;
+  console.log('commentId :>> ', commentId);
+  console.log('id', id)
+
+
+
+  try {
+    const deleteCom = await commentModel.deleteOne({ _id: commentId });
+    const query = {"_id": id}
+    const updateDocument = {$pull: {"comments": commentId}}
+    const postUpdate = await postModel.updateOne( query,updateDocument);
+
+    res.status(200).json({
+      msg: "Comment successfully deleted.",
+    });
+  } catch (error) {
+    console.log("error", error);
+    res.status(500).json({
+      msg: "Delete comment error",
+      error: error,
+    });
+  }
+};
+// ################################################################################### //
+
+export {
+  allPhilogram,
+  imgUploadGram,
+  videoUpload,
+  postThread,
+  createComment,
+  getPostById,
+  deleteComment,
+};
