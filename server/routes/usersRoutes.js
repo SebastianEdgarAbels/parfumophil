@@ -14,7 +14,13 @@ import {
 } from "../controller/usersController.js";
 import jwtAuth from "../middlewares/jwtAuth.js";
 import upload from "../middlewares/multer.js";
+import {body} from "express-validator";
+
 const router = express.Router();
+
+const validation = [
+  body("email").not().isEmpty()
+]
 
 router.post("/uploadimage", upload.single("image"), imageUpload);
 router.post("/signup", signup);
