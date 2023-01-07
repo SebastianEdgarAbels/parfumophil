@@ -10,13 +10,14 @@ function Comments() {
   const { userLogged } = useContext(AuthContext);
   const [comments, setComments] = useState([]);
   const [message, setMessage] = useState("");
-  // const [openPopup, setOpenPopup] = useState(false);
+
   const [anchorEl, setAnchorEl] = useState(null);
+  
 
   const token = localStorage.getItem("token");
 
   const open = Boolean(anchorEl);
-  const idPoper = open ? "simple-popper" : undefined;
+  const idPopper = open ? "simple-popper" : undefined;
 
   const { id } = useParams();
   // console.log("id from useParams :>> ", id);
@@ -63,13 +64,14 @@ function Comments() {
           requestOptions
         );
         const result = await response.json();
+        
         console.log("result in handlerSubmitMsg dot 0", result.commentPost);
         // console.log("result in handlerSubmitMsg", typeof result.commentPost);
       } catch (error) {
         console.log(" error", error);
       }
     } else {
-      // setOpenPopup(true);
+      
       setAnchorEl(anchorEl ? null : event.currentTarget);
     }
     setMessage("");
@@ -90,6 +92,7 @@ function Comments() {
       const result = await response.json();
       // console.log("result with 1 post by id", result);
       setComments(result.comments);
+     
     } catch (error) {
       console.log("error :>> ", error);
     }
@@ -99,20 +102,12 @@ function Comments() {
     getPostById()
   }, [comments]);
 
-  const sendElement = (
-    <FontAwesomeIcon
-      icon={faPaperPlane}
-      size={"xl"}
-      style={{ color: "#009688", paddingLeft: "5px" }}
-      onClick={handleSubmitMsg}
-    />
-  );
+  
 
-  // console.log("comments :>> ", comments);
-  // console.log("the type of the comments", typeof comments);
+
 
   const handleDeleteComment = async (e) => {
-    // console.log('handerDelete :>> ', e.target.parentElement.id);
+
     const myHeaders = new Headers();
    
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
@@ -136,22 +131,21 @@ function Comments() {
     }
   }
 
+  const sendElement = (
+    <FontAwesomeIcon
+      icon={faPaperPlane}
+      size={"xl"}
+      style={{ color: "#009688", paddingLeft: "5px" }}
+      onClick={handleSubmitMsg}
+    />
+  );
+
   return (
     <>
-      <div>
-        <div className="flex items-center pr-3 pb-2">
-          <textarea
-            type="text"
-            name="comment"
-            value={message}
-            onChange={handleMsg}
-            placeholder="Say something"
-            className="lg:w-[26rem] rounded"
-          />
-          <button>{sendElement}</button>
-        </div>
+      <div className="overflow-scroll whitespace-nowrap box-content">
+        
 
-        <Popper id={idPoper} open={open} anchorEl={anchorEl}>
+        <Popper id={idPopper} open={open} anchorEl={anchorEl}>
           <Box sx={{ border: 1, p: 1, bgcolor: "background.paper" }}>
             You have to login or to register so that you can comment.
           </Box>
@@ -160,7 +154,7 @@ function Comments() {
         {comments !== null &&
           comments.map((comment, i) => {
             return (
-              <div className="flex flex-col justify-center  ">
+              <div className="flex flex-col justify-center m-3 ">
                 <div key={i}>
                   <div className="flex">
                     <img
@@ -179,11 +173,22 @@ function Comments() {
                       <MdDeleteForever onClick={handleDeleteComment} id={comment._id} />
                     </div>
                   </div>
-                  <p></p>
+                  
                 </div>
               </div>
             );
           })}
+          <div className="flex justify-center items-baseline pr-3 pb-2 align-baseline">
+          <textarea
+            type="text"
+            name="comment"
+            value={message}
+            onChange={handleMsg}
+            placeholder="Say something"
+            className="lg:w-[26rem] rounded"
+          />
+          <button>{sendElement}</button>
+        </div>
       </div>
     </>
   );

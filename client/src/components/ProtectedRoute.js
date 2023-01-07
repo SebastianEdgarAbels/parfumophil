@@ -12,7 +12,7 @@ function ProtectedRoute({ children }) {
   return (
     <div>
       {isLoading ? (
-        <p>....Loading...</p>
+        <p>...Loading...</p>
       ) : userLogged ? (
         children
       ) : (

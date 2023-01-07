@@ -9,6 +9,7 @@ export const PhiloGramContext = createContext();
 // 3. Create provide
 export const PhiloGramContextProvider = (props) => {
   const [posts, setPosts] = useState();
+  const [isLoading, setLoading] = useState(true)
 
   // ####################################### GET ALL POSTS ####################################### //
 
@@ -30,6 +31,7 @@ export const PhiloGramContextProvider = (props) => {
       // console.log("result :>> ", result);
 
       setPosts(result);
+      setLoading(false)
     } catch (error) {
       console.log("error by fetching allPosts", error);
     }
@@ -41,7 +43,7 @@ export const PhiloGramContextProvider = (props) => {
   }, []);
 
   return (
-    <PhiloGramContext.Provider value={{ posts }}>
+    <PhiloGramContext.Provider value={{ posts, isLoading }}>
       {props.children}
     </PhiloGramContext.Provider>
   );

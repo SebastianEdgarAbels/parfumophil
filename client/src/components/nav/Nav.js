@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext} from "react";
 import "./Nav.css";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -22,20 +22,20 @@ function Nav() {
     <div>
       {/* #### Here is the IMG and the TEXT ##### */}
       {/* ####################################### */}
-      <div className="flex lg:justify-center md:justify-center sm:justify-between">
-        <div className="flex justify-center items-baseline lg:grow">
-          <div>
+      <div className="flex justify-between md:justify-center lg:justify-center">
+        <div className="flex justify-evenly md:justify-center items-baseline lg:grow">
+          {/* <div > */}
             <img
               src="/nose.png"
               alt="nose in love"
-              className="ml-[10rem] rounded-[15px] w-16 "
+              className="md:ml-[10rem] lg:ml-[10rem] rounded-[15px] w-16 "
             />
-          </div>
-          <div>
-            <p className="lg:text-2xl md:text-2xl sm:text-xls ">
+          {/* </div> */}
+          {/* <div> */}
+            <p className="text-xs  md:text-2xl lg:text-2xl ">
               For the love of scents
             </p>
-          </div>
+          {/* </div> */}
         </div>
         {/* #### Here is the REGISTER, LOGIN || USER.IMG && LOGOUT  ##### */}
         {/* ############################################################# */}

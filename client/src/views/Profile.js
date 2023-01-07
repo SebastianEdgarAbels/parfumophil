@@ -173,7 +173,7 @@ function Profile() {
 
   return (
     <div className="wrapper">
-      <div className="container border-primary border-2 rounded-[10%] mt-10 ">
+      <div className="container border-primary border-2 rounded-[10%] mt-10 w-[400px]">
         <div>
           <h3 className="text-3xl font-bold italic underline mt-3 text-center">
             User Profile

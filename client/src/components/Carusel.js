@@ -32,9 +32,9 @@ export default function Carusel() {
         className="mySwiper"
       >
         {perfumes &&
-          perfumes.map((perfume) => {
+          perfumes.map((perfume, i) => {
             return (
-              <SwiperSlide key={perfume._id}>
+              <SwiperSlide key={i}>
                 <img src={perfume.img} alt={perfume.name} />
               </SwiperSlide>
             );

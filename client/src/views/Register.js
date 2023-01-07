@@ -95,10 +95,10 @@ function Register() {
   };
 
   return (
-    <div>
-      <div className="">
+    <div className="flex flex-col justify-center items-center mt-32 mx-auto   rounded-xl border-solid border-orange-500 border-2 w-[400px] h-[400px]">
+      <div className="flex flex-col justify-center items-center">
         <form action="">
-          <div className=" flex-col min-w-[960px] min-h-[500px items-center justify-around m-3 gap-5">
+          <div className=" flex flex-col justify-center items-center">
             <div className=" m-3">
               <label htmlFor="userName" className=" m-3">
                 Username
@@ -110,11 +110,11 @@ function Register() {
                 ref={userName}
                 placeholder="Username"
                 // onChange={handleChanandler}
-                className=" m-3"
+                className=" m-3 rounded"
               />
             </div>
             <div>
-              <label htmlFor="email" className=" m-3">
+              <label htmlFor="email" className=" m-3 pr-7">
                 Email
               </label>
               <input
@@ -125,7 +125,7 @@ function Register() {
                 ref={email}
                 // onChange={handleChangeHandler}
                 required
-                className=" m-3"
+                className=" m-3 rounded"
               />
             </div>
             <div>
@@ -137,7 +137,7 @@ function Register() {
               />
               <button
                 onClick={submitForm}
-                className="border-solid border-2 border-yellow-500 rounded-md"
+                className="rounded text-sm font-semibold text-emerald-900 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 focus:outline-none focus:ring focus:ring-orange-300"
               >
                 Upload
               </button>
@@ -154,7 +154,7 @@ function Register() {
                 ref={password}
                 // onChange={handleChangeHandler}
                 required
-                className=" m-3"
+                className=" m-3 rounded"
               />
             </div>
           </div>
@@ -170,7 +170,7 @@ function Register() {
           />
         )}
       </div>
-      <button onClick={signup}>Sign Up</button>
+      <button onClick={signup} className="mt-2 rounded text-lg font-semibold text-emerald-900 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 focus:outline-none focus:ring focus:ring-orange-300">Sign Up</button>
     </div>
   );
 }

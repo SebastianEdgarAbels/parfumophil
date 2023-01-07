@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faVideo } from "@fortawesome/free-solid-svg-icons";
+import { AuthContext } from "../context/authContext.js";
+import { Box, Popper } from "@mui/material";
+
 
 function UploadingGramModal() {
-  const imgIcon = <FontAwesomeIcon icon={faCamera} />;
+  
+  const userLogged = useContext(AuthContext)
 
+  const imgIcon = <FontAwesomeIcon icon={faCamera} />;
   const [show, setShow] = useState(false);
   // const [selectedPics, setSelectedPics] = useState([]);
   const [pics, setPics] = useState([]);
@@ -15,22 +20,35 @@ function UploadingGramModal() {
   const [video, setVideo] = useState([]);
   const [perfumeTag, setperfumeTag] = useState("");
   const [comment, setComment] = useState("");
-
+  
   const token = localStorage.getItem("token");
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const idPopper = open ? "simple-popper" : undefined;
 
-  const handleShow = () => setShow(true);
+
+  const handleShow = () => {
+    setShow(true);
+  }
+
+  const popUp = (event) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget);
+
+  }
 
   const picIcon = <FontAwesomeIcon icon={faCamera} />;
   const videoIcon = <FontAwesomeIcon icon={faVideo} />;
 
   // handler to attach the pics
   const attachPicsHandler = (e) => {
+    e.preventDefault();
+
     // because it needs time upload the pics and doesn't wait till then and
     // just trigger the next function, this creates an error because it triggers the submit function without having the pics
     // setSelectedPics(e.target.files);
     submitPics(e.target.files);
   };
-  // console.log("selectedPics", selectedPics);
+ 
 
   // the handler for uploading the pics
   const submitPics = async (imgs) => {
@@ -87,6 +105,8 @@ function UploadingGramModal() {
   // console.log("pics >>>>>>>>>>>:>> ", pics);
 
   const attachVideoHandler = (e) => {
+    e.preventDefault();
+
     // console.log("e.target.files :>> ", e.target.files[0]);
     // because it needs time upload the video and doesn't wait till then and
     // just trigger the next function creates an error because like i said triggers the submit function without having the videos
@@ -169,9 +189,23 @@ function UploadingGramModal() {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Popper id={idPopper} open={open} anchorEl={anchorEl} className="flex flex-col items-center">
+        
+          <Box sx={{ border: 1, p: 1, bgcolor: "background.paper", borderRadius:"50%"}}>
+            You have to login or to register so that you can comment.
+          </Box>
+          <Box sx={{ border: 1, p: 1, bgcolor: "background.paper", borderRadius:"50%", width:"30px", height:"25px", marginTop:"5px"}}>
+          </Box>
+          <Box sx={{ border: 1, p: 1, bgcolor: "background.paper", borderRadius:"50%", width:"20px", marginBottom:"4px", marginTop:"4px"}}>
+          </Box>
+         
+        </Popper>
+
+       <Button variant="primary" onClick={token ? handleShow : popUp }  >
         {imgIcon}
       </Button>
+      
+     
 
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
@@ -245,7 +279,7 @@ function UploadingGramModal() {
           <Button
             className="text-black"
             variant="secondary"
-            onClick={handleClose}
+            onClick={() => setShow(false)}
           >
             Close
           </Button>

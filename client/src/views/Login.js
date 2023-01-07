@@ -3,56 +3,17 @@ import React, { useContext, useRef } from "react";
 import { AuthContext } from "../context/authContext";
 
 function Login() {
-  // const [userLogin, setUserLogin] = useState({});
+
   const { login } = useContext(AuthContext);
   const email = useRef();
   const password = useRef();
 
-  // const handleChangeHandler = (e) => {
-  //   setUserLogin({ ...userLogin, [e.target.name]: e.target.value });
-  // };
-
-  // const login = async () => {
-  //   // console.log("userLogin :>> ", userLogin);
-
-  //   const myHeaders = new Headers();
-  //   myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-
-  //   const urlencoded = new URLSearchParams();
-  //   urlencoded.append("email", userLogin.email);
-  //   urlencoded.append("password", userLogin.password);
-
-  //   var requestOptions = {
-  //     method: "POST",
-  //     headers: myHeaders,
-  //     body: urlencoded,
-  //     redirect: "follow",
-  //   };
-
-  //   try {
-  //     const response = await fetch(
-  //       "http://localhost:5000/api/users/login",
-  //       requestOptions
-  //     );
-  //     const result = await response.json();
-  //     console.log("result:>>>>", result);
-
-  //     const { token } = result;
-
-  //     if (token) {
-  //       localStorage.setItem("token", token);
-  //       setUserLogged(result);
-  //     }
-  //   } catch (error) {
-  //     console.log("error :>> ", error);
-  //   }
-  // };
+ 
 
   return (
-    <div>
-      <div className="">
-        <div className=" flex-col min-w-[960px] min-h-[500px items-center justify-around m-3 gap-5">
-          <div>
+    <div className="flex flex-col justify-center items-center mt-32 mx-auto   rounded-xl border-solid border-orange-500 border-2 w-[400px] h-[400px]">
+      
+          <div >
             <label htmlFor="email">Email</label>
             <input
               type="text"
@@ -60,10 +21,11 @@ function Login() {
               name="email"
               placeholder="Email"
               ref={email}
+              className="rounded ml-11"
               // onChange={handleChangeHandler}
             />
           </div>
-          <div>
+          <div className="mt-4">
             <label htmlFor="password">Password</label>
             <input
               type="password"
@@ -72,12 +34,14 @@ function Login() {
               placeholder="Password"
               ref={password}
               // onChange={handleChangeHandler}
+              className="rounded ml-4"
             />
-          </div>
-        </div>
+         
       </div>
       <button
         onClick={() => login(email.current.value, password.current.value)}
+        
+        className=" mt-6 rounded text-lg font-semibold  text-emerald-900 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 focus:outline-none focus:ring focus:ring-orange-300"
       >
         Login
       </button>

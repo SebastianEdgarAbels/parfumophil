@@ -9,7 +9,8 @@ import { FaRegCommentDots } from "react-icons/fa";
 function ParfumoPhiloGram() {
   // here will be uploaded the picture from users and after clicking 1 will be redirected to another page where will be the
   // pic and comments site
-  const { posts } = useContext(PhiloGramContext);
+  const { posts, isLoading } = useContext(PhiloGramContext);
+
   console.log("posts :>> ", posts);
 
   const loopPosts = async () => {
@@ -23,10 +24,10 @@ function ParfumoPhiloGram() {
   return (
     <>
       <div className="flex   mt-8 gap-6 w-960  min-h-screen  justify-center flex-wrap ">
-        {posts &&
-          posts.allPosts.map((post) => {
+        {isLoading === true ? <p className="text-lg font-bold">... is Loading</p> :
+          posts.allPosts.map((post, i) => {
             return (
-              <div className=" bg-grey rounded shadow-md md:h-[260px] md:w-[250px] ">
+              <div key={i} className=" bg-grey rounded shadow-md md:h-[260px] md:w-[250px] ">
                 <div className="flex gap-1">
                   <div>
                     <img

@@ -5,10 +5,20 @@ import { faArrowLeft, faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import Button from "react-bootstrap/Button";
 import UploadingGramModal from "../UploadingGramModal";
 
-const goBackIcon = <FontAwesomeIcon icon={faArrowLeft} />;
-const goTopIcon = <FontAwesomeIcon icon={faArrowUp} />;
+
+
+
+
+
+
+
 
 function Footer() {
+  
+  
+  const goBackIcon = <FontAwesomeIcon icon={faArrowLeft} />;
+  const goTopIcon = <FontAwesomeIcon icon={faArrowUp} />;
+
   return (
     <footer className="bg-gray-400 text-center bg-[rgba(255, 156, 0, 0.2)] mt-auto">
       <div className="flex justify-between ">
