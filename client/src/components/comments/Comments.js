@@ -137,18 +137,7 @@ function Comments() {
 
   return (
     <>
-      <div className="flex justify-center items-baseline pr-3 pb-2 align-baseline">
-        <textarea
-          type="text"
-          name="comment"
-          value={message}
-          onChange={handleMsg}
-          placeholder="Say something"
-          className="lg:w-[26rem] rounded"
-        />
-        <button>{sendElement}</button>
-      </div>
-      <div className="">
+      <div className="overflow-scroll whitespace-nowrap box-content mt-5 min-h-fit max-h-[170px] md:max-h-[340px]">
         <Popper id={idPopper} open={open} anchorEl={anchorEl}>
           <Box sx={{ border: 1, p: 1, bgcolor: "background.paper" }}>
             You have to login or to register so that you can comment.
@@ -189,6 +178,17 @@ function Comments() {
               </div>
             );
           })}
+      </div>
+      <div className="flex justify-center pr-3 pt-4 absolute bottom-14">
+        <textarea
+          type="text"
+          name="comment"
+          value={message}
+          onChange={handleMsg}
+          placeholder="Say something"
+          className="lg:w-[26rem] rounded"
+        />
+        <button>{sendElement}</button>
       </div>
     </>
   );

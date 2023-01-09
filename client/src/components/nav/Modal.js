@@ -47,12 +47,14 @@ function VerticallyCenter() {
       ></input>
       <label htmlFor="icon">{logOutIcon}</label> */}
 
-      <div onClick={onOpen} className="text-xl">
+      {/* <button className="flex rounded-xl h-9 hover:bg-orange-600 active:bg-orange-700 focus:outline-none focus:ring focus:ring-orange-300"> */}
+      <div onClick={onOpen} className="text-xl hover:text-red-700">
         {logOutIcon}
       </div>
-      <div onClick={onOpen} className="text-xl">
+      <div onClick={onOpen} className="text-xl hover:text-red-700">
         Logout
       </div>
+      {/* </button> */}
 
       <Modal onClose={closeModalAndLogout} isOpen={isOpen} isCentered>
         <ModalOverlay />

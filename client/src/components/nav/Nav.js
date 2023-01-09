@@ -1,4 +1,4 @@
-import React, { useContext} from "react";
+import React, { useContext } from "react";
 import "./Nav.css";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,10 +14,6 @@ function Nav() {
   const regIcon = <FontAwesomeIcon icon={faUsers} />;
   const logInIcon = <FontAwesomeIcon icon={faRightToBracket} />;
 
-  // const token = localStorage.getItem("token");
-  // console.log("token :>> ", token);
-  // console.log("userLogged from the nav", userLogged);
-
   return (
     <div>
       {/* #### Here is the IMG and the TEXT ##### */}
@@ -25,36 +21,41 @@ function Nav() {
       <div className="flex justify-between md:justify-center lg:justify-center">
         <div className="flex justify-evenly md:justify-center items-baseline lg:grow">
           {/* <div > */}
-            <img
-              src="/nose.png"
-              alt="nose in love"
-              className="md:ml-[10rem] lg:ml-[10rem] rounded-[15px] w-16 "
-            />
+          <img
+            src="/nose.png"
+            alt="nose in love"
+            className="md:ml-[10rem] lg:ml-[10rem] rounded-[15px] w-16 "
+          />
           {/* </div> */}
           {/* <div> */}
-            <p className="text-xs  md:text-2xl lg:text-2xl ">
-              For the love of scents
-            </p>
+          <p className="text-xs  md:text-2xl lg:text-2xl ">
+            For the love of scents
+          </p>
           {/* </div> */}
         </div>
         {/* #### Here is the REGISTER, LOGIN || USER.IMG && LOGOUT  ##### */}
         {/* ############################################################# */}
         <div className="flex gap-3 ">
-          {/* {console.log("userLogged>>>>", userLogged)} */}
           {!userLogged ? (
             <div>
-              <Link to="register" className="flex ml-1">
+              <Link to="register" className="flex ml-1 ">
                 <div className="text-xl">{regIcon}</div>
                 <div className="ml-1 text-xl">Register</div>
               </Link>
             </div>
           ) : (
             <Link to="/profile">
-              <img
-                src={userLogged?.avatarPic}
-                alt="user pic"
-                style={{ height: "29px", width: " 29px", borderRadius: "50%" }}
-              />
+              <div className=" mt-1 hover:rounded md:hover:bg-orange-500 md:hover:h-[31px] md:hover:w-[31px]">
+                <img
+                  src={userLogged?.avatarPic}
+                  alt="user pic"
+                  style={{
+                    height: "29px",
+                    width: " 29px",
+                    borderRadius: "50%",
+                  }}
+                />
+              </div>
             </Link>
           )}
           {!userLogged ? (
@@ -89,11 +90,6 @@ function Nav() {
             <Link to="ParfumoPhiloGram">
               <span className="barBtns">ParfumoPhiloGram</span>
             </Link>
-          </li>
-          <li>
-            {/* <Link to="/About">
-              <span>About</span>
-            </Link> */}
           </li>
         </ul>
       </nav>

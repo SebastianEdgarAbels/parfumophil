@@ -38,8 +38,8 @@ function PerfumoPhiloGramView() {
   console.log("post :>> ", post);
   return (
     <>
-      <div className="flex justify-center">
-        <div className="grid grid-cols-1  w-[900px] h-[600px]  mt-11 border-solid rounded-md border-gray-500 shadow-lg ">
+      <div className="flex justify-center ">
+        <div className="grid grid-cols-1  w-[900px] h-[700px] md:h-[600px]  mt-11 border-solid rounded-md border-gray-500 shadow-lg ">
           <div className="items-user flex justify-between ">
             <div className="flex gap-2 pt-[0.5rem] h-[30px]  ">
               <img
@@ -85,7 +85,7 @@ function PerfumoPhiloGramView() {
                   })}
               </Carousel>
             </div>
-            <div className="item-comments overflow-scroll whitespace-nowrap box-content justify-center ">
+            <div className="item-comments relative">
               <Comments />
             </div>
           </div>

@@ -42,6 +42,7 @@ const getPostById = async (req, res) => {
     const reqPost = await postModel
       .findById(id)
       .populate({ path: "user", select: ["_id", "userName", "avatarPic"] })
+
       .populate({
         path: "comments",
         populate: {
@@ -51,6 +52,7 @@ const getPostById = async (req, res) => {
       })
       .exec();
     // console.log("reqPost", reqPost);
+    // const sortComments = await commentModel.find().sort({ date: -1 });
     res.status(200).json({
       pics: reqPost.pics,
       user: reqPost.user,
@@ -211,16 +213,14 @@ const deleteComment = async (req, res) => {
   // console.log("req.params :>> ", req.params);
   const { commentId } = req.body;
   const { id } = req.params;
-  console.log('commentId :>> ', commentId);
-  console.log('id', id)
-
-
+  console.log("commentId :>> ", commentId);
+  console.log("id", id);
 
   try {
     const deleteCom = await commentModel.deleteOne({ _id: commentId });
-    const query = {"_id": id}
-    const updateDocument = {$pull: {"comments": commentId}}
-    const postUpdate = await postModel.updateOne( query,updateDocument);
+    const query = { _id: id };
+    const updateDocument = { $pull: { comments: commentId } };
+    const postUpdate = await postModel.updateOne(query, updateDocument);
 
     res.status(200).json({
       msg: "Comment successfully deleted.",
