@@ -179,12 +179,14 @@ function Profile() {
             User Profile
           </h3>
         </div>
-        <div className="flex flex-col justify-center items-center place-items-center">
+        <div className="flex flex-col  items-center place-items-center">
           <div>
-            <p className="font-bold">UserName:</p>
+            <p className="font-extrabold -ml-6">UserName:</p>
             {isPTag ? (
               <div className="flex gap-1">
-                <p onClick={() => setPTag(false)}>{userLogged.userName}</p>
+                <p onClick={() => setPTag(false)} className="-ml-6">
+                  {userLogged.userName}
+                </p>
                 <p onClick={() => setPTag(false)}>{editIcon}</p>
               </div>
             ) : (
@@ -205,7 +207,7 @@ function Profile() {
             <p>{userLogged?.email}</p>
           </div>
           <div>
-            <p className="font-bold">Avatar Picture </p>
+            <p className="font-extrabold ml-16">Avatar Picture </p>
             {isIMGTag ? (
               <img
                 onClick={() => setIMGTag(false)}
@@ -235,7 +237,7 @@ function Profile() {
             </div>
 
             <div className="flex gap-2 ">
-              <p>Delete your Account? </p>
+              <p className="ml-8">Delete your Account? </p>
               <p onClick={handlerDeleteAcc}>{deleteIcon}</p>
             </div>
           </div>

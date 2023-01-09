@@ -5,7 +5,6 @@ import { BsPin, BsPinFill } from "react-icons/bs";
 import { Carousel } from "flowbite-react";
 import Comments from "../components/comments/Comments";
 
-
 function PerfumoPhiloGramView() {
   const [post, setPost] = useState();
   const [isPinned, setPinned] = useState(false);
@@ -25,7 +24,7 @@ function PerfumoPhiloGramView() {
         requestOptions
       );
       const result = await response.json();
-      console.log("result with 1 post by id", result);
+      // console.log("result with 1 post by id", result);
       setPost(result);
     } catch (error) {
       console.log("error :>> ", error);
@@ -40,13 +39,18 @@ function PerfumoPhiloGramView() {
   return (
     <>
       <div className="flex justify-center">
-        <div className="grid grid-cols-1  w-[900px] h-[600px] bg-red-300  mt-11 border-solid rounded-md border-gray-500 shadow-lg ">
+        <div className="grid grid-cols-1  w-[900px] h-[600px]  mt-11 border-solid rounded-md border-gray-500 shadow-lg ">
           <div className="items-user flex justify-between ">
             <div className="flex gap-2 pt-[0.5rem] h-[30px]  ">
               <img
                 src={post && post.user[0].avatarPic}
                 alt="user img"
-                style={{ width: "37px", height: "37px", borderRadius: "45%", marginLeft:"3px" }}
+                style={{
+                  width: "37px",
+                  height: "37px",
+                  borderRadius: "45%",
+                  marginLeft: "3px",
+                }}
               />
               <div>
                 <p>{post && post.user[0].userName}</p>
@@ -68,22 +72,22 @@ function PerfumoPhiloGramView() {
             )}
           </div>
 
-          <div className="item-text col-span-1 pl-3 md:col-span-2">
+          <div className="item-text col-span-1 pl-3 md:col-span-2 mt-5">
             <p>{post && post.tag}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
-          <div className="item-img   m-10 h-56  xl:h-80 2xl:h-96 lg:mx-5 lg:h-80 ">
-            <Carousel slide={false}>
-              {post &&
-                post.pics.map((pic) => {
-                  return <img src={pic.url} alt="user uploaded pics" />;
-                })}
-            </Carousel>
-          </div>
-          <div className="item-comments  xs:justify-center">
-            <Comments />
-          </div>
+            <div className="item-img   m-10 h-56  xl:h-80 2xl:h-96 lg:mx-5 lg:h-80 ">
+              <Carousel slide={false}>
+                {post &&
+                  post.pics.map((pic) => {
+                    return <img src={pic.url} alt="user uploaded pics" />;
+                  })}
+              </Carousel>
+            </div>
+            <div className="item-comments overflow-scroll whitespace-nowrap box-content justify-center ">
+              <Comments />
+            </div>
           </div>
         </div>
       </div>

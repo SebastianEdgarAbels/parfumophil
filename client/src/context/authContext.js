@@ -13,6 +13,7 @@ export const AuthContextProvider = (props) => {
   // console.log("authcontext run");
   const [userLogged, setUserLogged] = useState(null);
   const [deletedUser, setDeletedUser] = useState(false);
+  const [errors, setErrors] = useState(null);
 
   // #################### PROFILE #################### //
   // ############################################### //
@@ -73,11 +74,18 @@ export const AuthContextProvider = (props) => {
       );
       const result = await response.json();
       console.log("result from the login in the authcontext :>>>>", result);
+      console.log(
+        "result from the login in the authcontext :>>>>",
+        result.errors
+      );
+      if (result.errors) {
+        setErrors(result.errors);
+      }
 
       const { token } = result;
-
       if (token) {
         localStorage.setItem("token", token);
+        setErrors(null);
         setUserLogged(result.user);
         redirectTo("/");
       }
@@ -85,6 +93,9 @@ export const AuthContextProvider = (props) => {
       console.log("error :>> ", error);
     }
   };
+
+  useEffect(() => {}, [errors]);
+
   // ############################################### //
 
   // #################### LOGOUT #################### //
@@ -110,6 +121,7 @@ export const AuthContextProvider = (props) => {
         isLoading,
         deletedUser,
         setDeletedUser,
+        errors,
       }}
     >
       {props.children}

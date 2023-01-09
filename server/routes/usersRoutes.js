@@ -14,16 +14,19 @@ import {
 } from "../controller/usersController.js";
 import jwtAuth from "../middlewares/jwtAuth.js";
 import upload from "../middlewares/multer.js";
-import {body} from "express-validator";
+import { body } from "express-validator";
 
 const router = express.Router();
 
-const validation = [
-  body("email").not().isEmpty()
-]
+const validationReg = [
+  body("userName").not().isEmpty().withMessage("Username is required"),
+  body("email").not().isEmpty().withMessage("Email is required"),
+  body("email").isEmail().withMessage("Invalid email format"),
+  body("password").isLength({ min: 6 }).withMessage("Invalid password"),
+];
 
 router.post("/uploadimage", upload.single("image"), imageUpload);
-router.post("/signup", signup);
+router.post("/signup", validationReg, signup);
 router.post("/login", login);
 router.get("/profile", jwtAuth, getProfile);
 router.delete("/deleteacc", deleteUsersProfile);

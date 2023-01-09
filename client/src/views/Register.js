@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Register() {
@@ -12,6 +12,8 @@ function Register() {
   const email = useRef();
   const password = useRef();
   const userName = useRef();
+  const [errors, setErrors] = useState(null);
+  // const [filteredErrors, setFilteredErrors] = useState(null);
 
   // attach the IMG
   const attachFileHandler = (e) => {
@@ -87,15 +89,21 @@ function Register() {
         requestOptions
       );
       const result = await response.json();
-      // console.log("result", result);
-      redirectTo("/login");
+      setErrors(result.errors);
+      // console.log("result errors", result.errors);
+      console.log("result", result);
+      if (result.errors === null) {
+        redirectTo("/login");
+      }
     } catch (error) {
       console.log("error :>> ", error);
     }
   };
 
+  useEffect(() => {}, [errors]);
+
   return (
-    <div className="flex flex-col justify-center items-center mt-32 mx-auto   rounded-xl border-solid border-orange-500 border-2 w-[400px] h-[400px]">
+    <div className="flex flex-col justify-center items-center mt-32 mx-auto   rounded-xl border-solid border-orange-500 border-2 w-[400px] min-h-[400px] max-h-[fit]">
       <div className="flex flex-col justify-center items-center">
         <form action="">
           <div className=" flex flex-col justify-center items-center">
@@ -112,6 +120,19 @@ function Register() {
                 // onChange={handleChanandler}
                 className=" m-3 rounded"
               />
+              {errors &&
+                errors.map((error, i) => {
+                  if (error.msg === "Username is required") {
+                    return (
+                      <p
+                        key={i}
+                        className="font-extrabold text-red-600 pl-[118px]"
+                      >
+                        {error.msg}
+                      </p>
+                    );
+                  }
+                })}
             </div>
             <div>
               <label htmlFor="email" className=" m-3 pr-7">
@@ -127,6 +148,28 @@ function Register() {
                 required
                 className=" m-3 rounded"
               />
+              {errors &&
+                errors.map((error, i) => {
+                  if (error.msg === "Email is required") {
+                    return (
+                      <p
+                        key={i}
+                        className="font-extrabold text-red-600 pl-[118px]"
+                      >
+                        {error.msg}
+                      </p>
+                    );
+                  } else if (error.msg === "Invalid email format") {
+                    return (
+                      <p
+                        key={i}
+                        className="font-extrabold text-red-600 pl-[118px]"
+                      >
+                        {error.msg}
+                      </p>
+                    );
+                  }
+                })}
             </div>
             <div>
               <input
@@ -156,6 +199,19 @@ function Register() {
                 required
                 className=" m-3 rounded"
               />
+              {errors &&
+                errors.map((error, i) => {
+                  if (error.msg === "Invalid password") {
+                    return (
+                      <p
+                        key={i}
+                        className="font-extrabold text-red-600 pl-[118px]"
+                      >
+                        {error.msg}
+                      </p>
+                    );
+                  }
+                })}
             </div>
           </div>
         </form>
@@ -170,7 +226,12 @@ function Register() {
           />
         )}
       </div>
-      <button onClick={signup} className="mt-2 rounded text-lg font-semibold text-emerald-900 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 focus:outline-none focus:ring focus:ring-orange-300">Sign Up</button>
+      <button
+        onClick={signup}
+        className="mt-2 mb-3 rounded text-lg font-semibold text-emerald-900 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 focus:outline-none focus:ring focus:ring-orange-300"
+      >
+        Sign Up
+      </button>
     </div>
   );
 }

@@ -12,7 +12,6 @@ function Comments() {
   const [message, setMessage] = useState("");
 
   const [anchorEl, setAnchorEl] = useState(null);
-  
 
   const token = localStorage.getItem("token");
 
@@ -24,12 +23,12 @@ function Comments() {
 
   const handleMsg = (e) => {
     // console.log('e sa vedem ce are', e)
-  //   console.log('e.target.value :>> ', e.target.value);
-   
-  //  console.log('e.target.value :>> ', e.target.value); 
-  //  if (e.key === "Enter") {
-  //     handleSubmitMsg()
-  //   }
+    //   console.log('e.target.value :>> ', e.target.value);
+
+    //  console.log('e.target.value :>> ', e.target.value);
+    //  if (e.key === "Enter") {
+    //     handleSubmitMsg()
+    //   }
     // console.log("e.target.value :>> ", e.target.value);
     setMessage(e.target.value);
   };
@@ -64,14 +63,13 @@ function Comments() {
           requestOptions
         );
         const result = await response.json();
-        
+
         console.log("result in handlerSubmitMsg dot 0", result.commentPost);
         // console.log("result in handlerSubmitMsg", typeof result.commentPost);
       } catch (error) {
         console.log(" error", error);
       }
     } else {
-      
       setAnchorEl(anchorEl ? null : event.currentTarget);
     }
     setMessage("");
@@ -92,44 +90,41 @@ function Comments() {
       const result = await response.json();
       // console.log("result with 1 post by id", result);
       setComments(result.comments);
-     
     } catch (error) {
       console.log("error :>> ", error);
     }
   };
 
   useEffect(() => {
-    getPostById()
+    getPostById();
   }, [comments]);
 
-  
-
-
-
   const handleDeleteComment = async (e) => {
-
     const myHeaders = new Headers();
-   
+
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
     const urlencoded = new URLSearchParams();
     urlencoded.append("commentId", e.target.parentElement.id);
 
     const requestOptions = {
-    method: 'DELETE',
-    headers: myHeaders,
-    body: urlencoded,
-    redirect: 'follow'
-  };
+      method: "DELETE",
+      headers: myHeaders,
+      body: urlencoded,
+      redirect: "follow",
+    };
 
     try {
-      const response = await fetch("http://localhost:5000/api/philogram/63adc13c29dcc67d3a3be473/comment", requestOptions)
-      const result = await response.json()
-      console.log('result :>> ', result);
+      const response = await fetch(
+        "http://localhost:5000/api/philogram/63adc13c29dcc67d3a3be473/comment",
+        requestOptions
+      );
+      const result = await response.json();
+      console.log("result :>> ", result);
     } catch (error) {
-      console.log('error', error)
+      console.log("error", error);
     }
-  }
+  };
 
   const sendElement = (
     <FontAwesomeIcon
@@ -142,9 +137,18 @@ function Comments() {
 
   return (
     <>
-      <div className="overflow-scroll whitespace-nowrap box-content">
-        
-
+      <div className="flex justify-center items-baseline pr-3 pb-2 align-baseline">
+        <textarea
+          type="text"
+          name="comment"
+          value={message}
+          onChange={handleMsg}
+          placeholder="Say something"
+          className="lg:w-[26rem] rounded"
+        />
+        <button>{sendElement}</button>
+      </div>
+      <div className="">
         <Popper id={idPopper} open={open} anchorEl={anchorEl}>
           <Box sx={{ border: 1, p: 1, bgcolor: "background.paper" }}>
             You have to login or to register so that you can comment.
@@ -169,26 +173,22 @@ function Comments() {
                     <p className="font-bold pl-1">{comment.author.userName}</p>
                     <p className="pl-3">{comment.text}</p>
                     <div>
-                    
-                      <MdDeleteForever onClick={handleDeleteComment} id={comment._id} />
+                      {/* {console.log("the userLogged>>", userLogged._id)};
+                      {console.log("the comment>>>", comment.author._id)} */}
+                      {userLogged && userLogged._id === comment.author._id ? (
+                        <MdDeleteForever
+                          onClick={handleDeleteComment}
+                          id={comment._id}
+                        />
+                      ) : (
+                        <p></p>
+                      )}
                     </div>
                   </div>
-                  
                 </div>
               </div>
             );
           })}
-          <div className="flex justify-center items-baseline pr-3 pb-2 align-baseline">
-          <textarea
-            type="text"
-            name="comment"
-            value={message}
-            onChange={handleMsg}
-            placeholder="Say something"
-            className="lg:w-[26rem] rounded"
-          />
-          <button>{sendElement}</button>
-        </div>
       </div>
     </>
   );

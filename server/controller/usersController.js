@@ -3,6 +3,7 @@ import userModel from "../models/usersModel.js";
 import encryptPassword from "../utils/encryptPassword.js";
 import isPasswordValid from "../utils/isPasswordValid.js";
 import issueToken from "../utils/jwt.js";
+import { validationResult } from "express-validator";
 
 //############## Image upload ##############//
 //##########################################//
@@ -37,43 +38,55 @@ const signup = async (req, res) => {
   // const isEmailValid = validateEmail(email); //then create isEmailValid in another folder
   // using the express logic here to check if the email is valid
   try {
+    const errors = validationResult(req).array();
     const existingUser = await userModel.findOne({ email: email });
-    if (existingUser) {
-      res.status(200).json({
-        msg: "Email allready in use",
-      });
-    } else if (password === "undefined") {
-      res.status(200).json({
-        msg: "You have to enter a password",
-      });
-    } else {
-      const hashedPassword = await encryptPassword(password);
-      // console.log("hashedPassword", hashedPassword);
-      const newUser = new userModel({
-        email: email,
-        password: hashedPassword,
-        userName: userName,
-        ImgPublic_id: req.body.ImgPublic_id ? req.body.ImgPublic_id : "",
-        avatarPic: req.body.avatarPic
-          ? req.body.avatarPic
-          : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
-      });
 
-      try {
-        const savedUser = await newUser.save();
-        const populateSavedUser = await savedUser.populate({
-          path: "comment",
-          select: ["text", "date"],
+    if (existingUser) {
+      errors.push({ msg: "Email allready in use" });
+      // res.status(200).json({
+      //   msg: "Email allready in use",
+      // });
+      // } else if (password === "undefined") {
+      //   errors.push({ msg: "You have to enter a password" });
+      // res.status(200).json({
+      //   msg: "You have to enter a password",
+      // });
+    } else {
+      if (errors.length > 0) {
+        console.log("errors :>> ", errors);
+        return res.status(500).json({
+          errors: errors,
         });
-        res.status(201).json({
-          msg: "User Registered successfully ",
-          user: populateSavedUser,
+      } else {
+        const hashedPassword = await encryptPassword(password);
+        // console.log("hashedPassword", hashedPassword);
+        const newUser = new userModel({
+          email: email,
+          password: hashedPassword,
+          userName: userName,
+          ImgPublic_id: req.body.ImgPublic_id ? req.body.ImgPublic_id : "",
+          avatarPic: req.body.avatarPic
+            ? req.body.avatarPic
+            : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
         });
-      } catch (error) {
-        console.log("error :>> ", error);
-        res.status(500).json({
-          msg: "SignUp went wrong",
-        });
+
+        try {
+          const savedUser = await newUser.save();
+          // const populateSavedUser = await savedUser.populate({
+          //   path: "comment",
+          //   select: ["text", "date"],
+          // });
+          res.status(201).json({
+            msg: "User Registered successfully ",
+            user: savedUser,
+          });
+        } catch (error) {
+          console.log("error :>> ", error);
+          res.status(500).json({
+            msg: "SignUp went wrong",
+            error: error,
+          });
+        }
       }
     }
   } catch (error) {
@@ -95,36 +108,34 @@ const login = async (req, res) => {
     // console.log("existingUser", existingUser);
 
     if (!existingUser) {
+      // errors.push({ msg: "wrong email, do you have an account?" });
       res.status(200).json({
-        msg: "wrong email, do you have an account?",
+        errors: [{ msg: "wrong email, do you have an account?" }],
       });
     } else {
       const verified = await isPasswordValid(password, existingUser.password);
       // console.log("verified :>> ", verified);
       if (!verified) {
+        // errors.push({ msg: "incorrect password" });
         res.status(401).json({
-          msg: "incorrect password",
+          errors: [{ msg: "incorrect password" }],
         });
       }
+      // if (errors > 0) {
+      //   console.log("errors :>> ", errors);
+      //   return res.status(500).json({
+      //     errors: errors,
+      //   });
+      // }
       if (verified) {
-        // console.log("verified :>> ", verified);
         const token = issueToken(existingUser._id);
-        // console.log("token", token);
 
         // this creates/generates the result
         res.status(200).json({
           msg: "Successfully logged in",
-          // user: {
-          //   userName: existingUser.userName,
-          //   id: existingUser._id,
-          //   email: existingUser.email,
-          //   avatarPic: existingUser.avatarPic,
-          //   ImgPublic_id: existingUser.ImgPublic_id,
-          // },
           user: existingUser,
           token,
         });
-        // i remain here where i have to send the res to the front-end min 1.01.30
       }
     }
   } catch (error) {
